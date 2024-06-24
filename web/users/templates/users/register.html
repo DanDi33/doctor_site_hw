@@ -1,0 +1,17 @@
+{% extends 'users/base.html' %}
+{% load crispy_forms_tags %}
+{% crispy example_form example_form.helper %}
+{% block content %}
+
+<div class="center">
+    <div class="card card-login m-auto">
+        <div class="card-body">
+            <h5 class="card-title text-center">Регистрация</h5>
+            <form method="post" class="form-contact" novaldiate>
+                {% crispy form %}
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

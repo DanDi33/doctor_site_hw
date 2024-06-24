@@ -1,0 +1,128 @@
+:root {
+  --color-primary: #ee394c;
+  --color-secondary: #86b7fe;
+  --color-light: #f2f2f2;
+  --color-gray: #ced4da;
+  --color-dark: #212121;
+  --color-white: #ffffff;
+  --color-error: #e2442f;
+  --color-warning: #ffc900;
+  --color-info: #02a2b9;
+  --color-success: #1ba345;
+  --color-input: #00d1b2;
+   --border-radius: 5px;
+}
+
+.users-body {
+  background: url('/media/fon.jpg') no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  
+}
+#innerPage {
+  width:100%;
+  max-width:840px;
+  margin : 0 auto;
+  border-radius: 12px;
+  background: #156892;
+  box-shadow:  7px 7px 13px 1px #0f2d64,
+               -10px -9px 11px 1px #5b79ad;
+  opacity: 0.9;
+}
+.form-control {
+  background: none;
+  border:none;
+  border-bottom : 1px solid #45bdd9;
+  color:#fff;
+}
+
+#imgBgn-login {
+  background-image: url('/media/guard.png');
+  background-repeat: no-repeat;
+}
+
+#imgBgn-reset {
+  background-image : url('/media/padlock.png');
+  background-repeat: no-repeat;
+
+}
+
+#imgBgn-reset-done {
+  background-image : url('/media/check.png');
+  background-repeat: no-repeat;
+  background-size: 95%;
+}
+
+.imgBgn {
+  background-size: cover;
+  background-position:center;
+  min-height:75vh;
+  width:100%;
+  border-radius: 12px 0px 0px 12px;
+  filter: drop-shadow(0 0 20px #83d8ff);
+}
+
+/* alert */
+.alert {
+  padding: 0.25rem 0.75rem;
+  border-radius: 0.5rem;
+}
+.alert-error {
+  background-color: var(--color-error);
+  color: var(--color-light);
+}
+
+.alert-warning {
+  background-color: var(--color-warning);
+  color: var(--color-light);
+}
+
+.alert-info {
+  background-color: var(--color-info);
+  color: var(--color-light);
+}
+
+.alert-success {
+  background-color: var(--color-success);
+  color: var(--color-light);
+}
+
+/* Кастомизация меню */
+.menu-bg-custom {
+  background-color: #476270;
+}
+
+.nav-link {
+  color: lightgray;
+}
+
+.nav-link:hover {
+  color: #fff;
+  text-shadow:
+      0 0 7px #fff,
+      0 0 10px #fff,
+      0 0 21px #fff,
+      0 0 42px #0fa,
+      0 0 82px #0fa,
+      0 0 92px #0fa,
+      0 0 102px #0fa,
+      0 0 151px #0fa;
+  transition: color 0.3s; /* Плавное изменение цвета */
+}
+
+/* админ-панель, меню О себе */
+.label-color {
+  color:#31d2f2;
+}
+.admin-about-img {
+  width: 100%; /* Чтобы изображение было в пределах контейнера */
+  height: auto; /* Для сохранения пропорций изображения */
+  border-radius: 12px;
+  filter: drop-shadow(0 0 20px #83d8ff);
+}
+
+/* placeholder */
+input::-webkit-input-placeholder { color: #ced4da; } /* Chrome/Opera/Safari */
+input::-moz-placeholder          { color: #ced4da; } /* Firefox 19+ */
+input:-moz-placeholder           { color: #ced4da; } /* Firefox 18- */
+input:-ms-input-placeholder      { color: #ced4da; } /* IE 10+ */

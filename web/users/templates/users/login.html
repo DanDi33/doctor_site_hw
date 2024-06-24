@@ -1,0 +1,46 @@
+{% extends "users/base.html" %}
+{% block content %}
+
+<div class="container vh-100 d-flex align-items-center">
+    <div id="innerPage">
+      <div class="row align-items-center justify-content-center">
+        <div class="col-sm-6 col-xs-12 d-sm-block d-none">
+          <div class="imgBgn" id="imgBgn-login">
+          </div>
+        </div>
+        <div class="col-sm-6 col-xs-12 text-white p-5">
+            <form method="post" novaldiate>
+                {% csrf_token %}
+            
+          <div class="lead">
+            <h3>Добро пожаловать!</h3>
+            <p class="fs-6 mb-4">
+              <small>Авторизуйтесь, чтобы добавить что-то новенькое или отредактировать вашу страницу.</small>
+            </p>
+          </div>
+          
+          <div class="mt-4">
+            <p>
+              Логин:
+            </p>
+          </div>
+          <input class="form-control rounded-0 mb-3" type="text" name="username" id="id_username" placeholder="Введите логин" />
+          <input class="form-control rounded-0 mb-3" type="password" name="password" id="id_password" placeholder="Введите пароль" />
+          {% if messages %}
+          {% for message in messages %}
+          <div class="text-center alert alert-{{message.tags}}">
+            {{message}}
+          </div>
+          {% endfor %}
+          {% endif %}
+          <button class="btn btn-info mt-4 w-100" type="submit">Войти</button>
+        </form>
+        <p class="fs-6 mt-2" style="text-align: right;">
+          <a href="{% url 'password_reset' %}" style="text-decoration: none; color: #8bc1f3;"> Забыли пароль? </a>
+        </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock content %}

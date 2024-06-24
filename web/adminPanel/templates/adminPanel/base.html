@@ -1,0 +1,103 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css">
+
+    <link rel="stylesheet" href="{% static 'css/styles.css'%}">
+
+    <title>{{title}}</title>
+</head>
+
+<body class="admin-panel-body">
+    <div class="container-fluid">
+        <div class="row flex-nowrap">
+            <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 menu-bg-custom">
+                <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+                    <a href="/"
+                        class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                        <span class="fs-5 d-none d-sm-inline">Меню</span>
+                    </a>
+                    <ul class="nav text-light flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start"
+                        id="menu">
+                        <li>
+                            <a href="{% url 'home' %}" class="nav-link align-middle px-0">
+                                <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline {%if active == 'home' %} active {% endif %}">Ваш сайт</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'about' %}" class="nav-link align-middle px-0">
+                                <i class="fs-4 bi-file-person"></i> <span class="ms-1 d-none d-sm-inline {%if active == 'about' %} active {% endif %}">{% if menu.about %} {{ menu.about }} {% else %} О, себе {% endif %}</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="nav-link px-0 align-middle">
+                                <i class="fs-4 bi-currency-euro"></i> <span class="ms-1 d-none d-sm-inline">Услуги</span></a>
+                        </li>
+                        <li>
+                            <a href="#" class="nav-link px-0 align-middle">
+                                <i class="fs-4 bi-heart-pulse"></i> <span class="ms-1 d-none d-sm-inline">Кейсы</span></a>
+                        </li>
+                        <li>
+                            <a href="#" class="nav-link px-0 align-middle">
+                                <i class="fs-4 bi-mortarboard"></i> <span class="ms-1 d-none d-sm-inline">Образование и работа</span></a>
+                        </li>
+                        <li>
+                            <a href="#" class="nav-link px-0 align-middle">
+                                <i class="fs-4 bi-chat-text"></i> <span class="ms-1 d-none d-sm-inline">Отзывы</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <hr>
+                    <div class="dropdown pb-4">
+                        <a href="#"
+                            class="d-flex align-items-center text-white text-decoration-none dropdown-toggle {% if current_path == home_url %}active{% endif %}"
+                            id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="https://github.com/mdo.png" alt="hugenerd" width="30" height="30"
+                                class="rounded-circle">
+                            <span class="d-none d-sm-inline mx-1">{{user.username}}</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
+                            <li><a class="dropdown-item" href="#">New project...</a></li>
+                            <li><a class="dropdown-item" href="#">Settings</a></li>
+                            <li><a class="dropdown-item" href="{% url 'profile' %}">Профиль</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
+                                <!-- <a href="{% url 'logout' %}" class="dropdown-item" onclick="event.preventDefault(); this.closest('form').submit();"> -->
+                                <!-- Выйти
+                            </a> -->
+                                <form action="{% url 'logout' %}" method="post">
+                                    {% csrf_token %}
+                                    <a href="#" class="dropdown-item"
+                                        onclick="event.preventDefault(); this.closest('form').submit();">Выйти</a>
+                                    <!-- Тут может быть кнопка выхода, но она скрыта -->
+                                </form>
+                                <!-- <a class="dropdown-item" href="#">Sign out</a> -->
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col py-3">
+                {% block content %}
+                {% endblock content %}
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Bootstrap JS (optional) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
