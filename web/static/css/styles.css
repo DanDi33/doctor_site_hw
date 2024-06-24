@@ -39,15 +39,22 @@
 #imgBgn-login {
   background-image: url('/media/guard.png');
   background-repeat: no-repeat;
+  background-size: 100%;
 }
 
 #imgBgn-reset {
   background-image : url('/media/padlock.png');
   background-repeat: no-repeat;
-
+  background-size: 100%;
 }
 
 #imgBgn-reset-done {
+  background-image : url('/media/check.png');
+  background-repeat: no-repeat;
+  background-size: 95%;
+}
+
+#imgBgn-reset-complete {
   background-image : url('/media/check.png');
   background-repeat: no-repeat;
   background-size: 95%;

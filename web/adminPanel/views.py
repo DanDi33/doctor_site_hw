@@ -4,8 +4,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import UserUpdateForm, AboutUpdateForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.urls import reverse
-from .models import Menu
+from django.urls import reverse, reverse_lazy
+from .models import Menu, Ed_and_work
+from django.views.generic.list import ListView
+from django.views.generic.edit import CreateView
 
 # Create your views here.
 @login_required
@@ -76,6 +78,30 @@ class MyAboutView(LoginRequiredMixin, View):
             messages.error(request,'Error updating you profile')
             
             return render(request, 'adminPanel/about.html', context)
+
+class MyEdAndWorkView(LoginRequiredMixin,ListView):
+    model = Ed_and_work
+    template_name = "adminPanel/ed-and-work.html"
+    context_object_name = "posts"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Образование и работа'
+        context['posts'] = context['posts'].filter(user=self.request.user).order_by('year')
+        context['active'] = 'ed_and_work'
+        context['menu'] = request_menu(self.request)
+        return context
+
+class CreatePostEdAndWorkView(LoginRequiredMixin,CreateView):
+    model = Ed_and_work
+    fields = ['year','desc','diplom_img']
+    template_name = "adminPanel/ed-and-work-form.html"
+    success_url = reverse_lazy('ed_and_work')
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        messages.success(self.request, "Запись успешно создана.")
+        return super(CreatePostEdAndWorkView,self).form_valid(form)
 
 def request_menu(request):
     user_id = request.user.id  # Получаем id текущего пользователя

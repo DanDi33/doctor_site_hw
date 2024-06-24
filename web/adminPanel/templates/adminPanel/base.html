@@ -33,24 +33,24 @@
                         </li>
                         <li>
                             <a href="{% url 'about' %}" class="nav-link align-middle px-0">
-                                <i class="fs-4 bi-file-person"></i> <span class="ms-1 d-none d-sm-inline {%if active == 'about' %} active {% endif %}">{% if menu.about %} {{ menu.about }} {% else %} О, себе {% endif %}</span>
+                                <i class="fs-4 bi-file-person"></i> <span class="ms-1 d-none d-sm-inline">{% if menu.about %} {{ menu.about }} {% else %} О себе {% endif %}</span>
                             </a>
                         </li>
                         <li>
                             <a href="#" class="nav-link px-0 align-middle">
-                                <i class="fs-4 bi-currency-euro"></i> <span class="ms-1 d-none d-sm-inline">Услуги</span></a>
+                                <i class="fs-4 bi-currency-euro"></i> <span class="ms-1 d-none d-sm-inline">{% if menu.services %} {{ menu.services }} {% else %} Услуги {% endif %}</span></a>
                         </li>
                         <li>
                             <a href="#" class="nav-link px-0 align-middle">
-                                <i class="fs-4 bi-heart-pulse"></i> <span class="ms-1 d-none d-sm-inline">Кейсы</span></a>
+                                <i class="fs-4 bi-heart-pulse"></i> <span class="ms-1 d-none d-sm-inline">{% if menu.cases %} {{ menu.cases }} {% else %} Кейсы {% endif %}</span></a>
+                        </li>
+                        <li>
+                            <a href="{% url 'ed_and_work' %}" class="nav-link px-0 align-middle">
+                                <i class="fs-4 bi-mortarboard"></i> <span class="ms-1 d-none d-sm-inline">{% if menu.ed_and_work %} {{ menu.ed_and_work }} {% else %} Образование и работа {% endif %}</span></a>
                         </li>
                         <li>
                             <a href="#" class="nav-link px-0 align-middle">
-                                <i class="fs-4 bi-mortarboard"></i> <span class="ms-1 d-none d-sm-inline">Образование и работа</span></a>
-                        </li>
-                        <li>
-                            <a href="#" class="nav-link px-0 align-middle">
-                                <i class="fs-4 bi-chat-text"></i> <span class="ms-1 d-none d-sm-inline">Отзывы</span>
+                                <i class="fs-4 bi-chat-text"></i> <span class="ms-1 d-none d-sm-inline">{% if menu.feedbackes %} {{ menu.feedbackes }} {% else %} Отзывы {% endif %}</span>
                             </a>
                         </li>
                     </ul>
@@ -59,7 +59,7 @@
                         <a href="#"
                             class="d-flex align-items-center text-white text-decoration-none dropdown-toggle {% if current_path == home_url %}active{% endif %}"
                             id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="https://github.com/mdo.png" alt="hugenerd" width="30" height="30"
+                            <img src="{{ user.about.main_foto.url }}" alt="logo" width="30" height="30"
                                 class="rounded-circle">
                             <span class="d-none d-sm-inline mx-1">{{user.username}}</span>
                         </a>
