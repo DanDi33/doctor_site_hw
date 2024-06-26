@@ -23,6 +23,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include("users.urls")),
     path('', include("adminPanel.urls")),
+    path('', include("main.urls")),
 ]
 
 urlpatterns += static(settings.MEDIA_URL,

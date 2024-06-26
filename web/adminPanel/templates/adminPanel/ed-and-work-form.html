@@ -10,52 +10,47 @@
 </style>
 <div class="container vh-100 d-flex align-items-center">
     <div id="innerPage">
-        
+        <form method="post" novaldiate enctype="multipart/form-data">
+            {% csrf_token %}
             <div class="row align-items-center justify-content-center">
 
-                <div class="col-12 text-white px-5 pt-5">
+                <div class="col-sm-6 col-xs-12 text-white px-5 pt-5">
 
                     <div class="lead">
-                        <h3>Образование и работа</h3>
-                        <p class="fs-6 mb-4">
+                        <h3>{% if ed_and_work %} Редактировать {% else %} Добавить {% endif %} запись</h3>
+                        <!-- <p class="fs-6 mb-4">
                             <small>Здесь Вы можете добавить или удалить данные о Вашем образовании и работе.</small>
-                        </p>
+                        </p> -->
                     </div>
 
                     <div class="mt-4">
                         <p class="label-color">
-                            Имя:
+                            Год:
                         </p>
                     </div>
-                    {% if posts %}
-                    <ol class="categories">
-                        {% for post in posts %}
-                        <li>
-                            <div class="row mt-2">
-                                <div class="col-9">
-                                    <a href="{% url 'update-ed-and-work' post.id %}"
-                                        style="text-decoration: none;color: #000;"><p>{{ post.year }}  {{ post.post }}</p></a>
-                                </div>
-                                <div class="task-controls col-3 card-text d-flex">
-                                    <a class="edit px-2 ms-auto" href="#"><i
-                                            class="bi bi-pencil-square"></i></a>
-                                    <a class="edit px-2" href="#"><i
-                                            class="bi bi-trash"></i></a>
-                                </div>
-                            </div>
-                        </li>
-                        {%endfor%}
-                    </ol>
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                        <a href="#" class="btn btn-primary profile-button">Добавить категорию</a>
-                    </div>
-        
-                    {% else %}
-                    <p class="text-center"> У вас нет категорий! 
-                        <a href="#">Создать категорию</a>
-                    </p>
+                    <input class="form-control rounded-0 mb-3" type="text" name="year" id="id_year"
+                        placeholder="Введите год" {% if ed_and_work %} value="{{form.year.value}}" {% endif %} />
+                    {% if form.year.errors %}
+                    <small class="text-center alert alert-error">{{form.year.errors|striptags}}</small>
                     {% endif %}
-          
+
+                    <div class="mt-4">
+                        <p class="label-color">
+                            Краткое описание:
+                        </p>
+                    </div>
+                    <textarea class="form-control rounded-0 mb-3" type="text" name="desc" id="id_desc" rows="5"
+                        placeholder="Введите описание">{{ form.desc.value|default_if_none:"" }}</textarea>
+
+                    {% if form.desc.errors %}
+                    <small class="text-center alert alert-error">{{form.desc.errors|striptags}}</small>
+                    {% endif %}
+                    <!-- {% for field in form %}
+                    {% if field.errors %}
+                    <small class="text-center alert alert-error">{{field.errors|striptags}}</small>
+                    {% endif %}
+                    {% endfor %}     -->
+
                     {% if messages %}
                     {% for message in messages %}
                     <div class="text-center alert alert-{{message.tags}}">
@@ -63,29 +58,34 @@
                     </div>
                     {% endfor %}
                     {% endif %}
-                    
+
                 </div>
                 <div class="col-sm-6 col-xs-12 px-5 pt-5">
-                    {% if user.about %}
-                    <!-- <div class="imgBgn" id="imgBgn-login">
-                    </div> -->
-                    <!-- <img src="{{ user.about.main_foto.url }}" alt="{{ user.username }}" class="img-fluid admin-about-img"
-                            accept=".jpg,.jpeg,.png" id="about-img"> -->
-                    {% endif %}
-                    <!-- <input class="form-control rounded-0 mb-3" type="file" name="main_foto" id="id_main_foto"/> -->
-                </div>
+                    <img src="{% if ed_and_work.diplom_img %} {{ ed_and_work.diplom_img.url }} {% else %} /media/default-diplom.png {% endif %}"
+                        alt="{{ user.username }}" class="img-fluid admin-about-img" accept=".jpg,.jpeg,.png"
+                        onclick="id_diplom_img.click()" id="ed_and_work_diplom_img">
 
-                
-            </div>
-            <div class="row align-items-center justify-content-center">
-                <div class="col-sm-6 col-xs-12 d-sm-block ">
-       
+                    <input class="form-control rounded-0 mb-3" type="file" name="diplom_img" id="id_diplom_img"
+                        style="display: none;" onchange="previewFile()" />
+                    {% if form.diplom_img.errors %}
+                    <small class="text-center alert alert-error">{{form.diplom_img.errors|striptags}}</small>
+                    {% endif %}
                 </div>
-                <div class="col-sm-6 col-xs-12 d-sm-block  px-5 pb-5">
-                    <a href="" class="btn btn-info mt-4 w-100">Добавить запись</a>
+                <div class="row align-items-center justify-content-center">
+
+                    <div class="col-sm-6 col-xs-12 text-white px-5 pt-5">
+                    </div>
+
+                    <div class="col-sm-6 col-xs-12 d-sm-block  px-5 pb-5">
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a href="{% url 'ed-and-work' %}" class="btn btn-info mt-4 w-50">Отмена</a>
+                            <button class="btn btn-info mt-4 w-50" type="submit">
+                                {% if ed_and_work %} Изменить {% else %} Сохранить {% endif %}
+                            </button>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        
+        </form>
     </div>
 </div>
 

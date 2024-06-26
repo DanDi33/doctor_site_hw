@@ -29,6 +29,7 @@
                -10px -9px 11px 1px #5b79ad;
   opacity: 0.9;
 }
+
 .form-control {
   background: none;
   border:none;
@@ -94,16 +95,16 @@
   color: var(--color-light);
 }
 
-/* Кастомизация меню */
+/* Кастомизация бокового меню */
 .menu-bg-custom {
   background-color: #476270;
 }
 
-.nav-link {
+.admin-menu-text {
   color: lightgray;
 }
 
-.nav-link:hover {
+.admin-menu-text:hover {
   color: #fff;
   text-shadow:
       0 0 7px #fff,
@@ -117,6 +118,11 @@
   transition: color 0.3s; /* Плавное изменение цвета */
 }
 
+.admin-menu-text.active {
+  color: #0fa !important;
+
+}
+
 /* админ-панель, меню О себе */
 .label-color {
   color:#31d2f2;
@@ -126,6 +132,7 @@
   height: auto; /* Для сохранения пропорций изображения */
   border-radius: 12px;
   filter: drop-shadow(0 0 20px #83d8ff);
+  cursor: pointer;
 }
 
 /* placeholder */

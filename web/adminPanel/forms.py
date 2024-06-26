@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from .models import About
+from .models import About, Menu
 
 class UserUpdateForm(forms.ModelForm):
     class Meta:
@@ -10,4 +10,9 @@ class UserUpdateForm(forms.ModelForm):
 class AboutUpdateForm(forms.ModelForm):
     class Meta:
         model = About
-        fields = ["profession", "main_foto"] 
+        fields = ["profession", "slogan", "main_foto"] 
+
+class UpdateMenuForm(forms.ModelForm):
+    class Meta:
+        model = Menu
+        fields = ['about','services','cases', 'ed_and_work','feedbacks']

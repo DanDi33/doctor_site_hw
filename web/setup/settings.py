@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'crispy_bootstrap5',
     'adminPanel',
     'django_cleanup.apps.CleanupConfig',
+    'main',
     # 'phonenumber_field',
 ]
 

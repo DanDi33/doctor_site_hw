@@ -1,13 +1,32 @@
 from django.urls import path
-from .views import home, about, profile
-from .views import MyAboutView, MyEdAndWorkView, CreatePostEdAndWorkView
+from .views import profile
+from .views import (MyAboutView, 
+                    MyEdAndWorkView, 
+                    CreatePostEdAndWorkView, 
+                    UpdatePostEdAndWorkView, 
+                    DeletePostEdAndWorkView,
+                    MyCaseView,
+                    CreateCaseView,
+                    UpdateCaseView,
+                    DeleteCaseView,
+                    UpdateMenuView
+                    )
 
 urlpatterns = [
-    path("",home , name="home"),
     path("admin-panel/about/", MyAboutView.as_view(), name="about"),
-    path("admin-panel/profile/",profile , name="profile"),
-    path('adminPanel/ed_and_work/', MyEdAndWorkView.as_view(), name="ed_and_work"),
+   
+    path('adminPanel/ed_and_work/', MyEdAndWorkView.as_view(), name="ed-and-work"),
     path('adminPanel/ed_and_work/create/', CreatePostEdAndWorkView.as_view(), name="create-post-ed-and-work"),
+    path('adminPanel/ed_and_work/update/<int:pk>', UpdatePostEdAndWorkView.as_view(), name="update-post-ed-and-work"),
+    path('adminPanel/ed_and_work/delete/<int:pk>', DeletePostEdAndWorkView.as_view(), name="delete-post-ed-and-work"),
 
+    path('adminPanel/cases/', MyCaseView.as_view(), name="cases"),
+    path('adminPanel/case/create/', CreateCaseView.as_view(), name="create-case"),
+    path('adminPanel/case/update/<int:pk>', UpdateCaseView.as_view(), name="update-case"),
+    path('adminPanel/case/delete/<int:pk>', DeleteCaseView.as_view(), name="delete-case"),
+
+    path('adminPanel/menu/', UpdateMenuView.as_view(), name="menu-settings"),
+
+    path("admin-panel/profile/",profile , name="profile"),
     # path('profile/', MyProfileView.as_view(), name="profile")
 ]
