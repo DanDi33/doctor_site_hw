@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from .models import About, Menu
+from .models import About, Menu, Paralax
 
 class UserUpdateForm(forms.ModelForm):
     class Meta:
@@ -16,3 +16,8 @@ class UpdateMenuForm(forms.ModelForm):
     class Meta:
         model = Menu
         fields = ['about','services','cases', 'ed_and_work','feedbacks']
+
+class UpdateParalaxForm(forms.ModelForm):
+    class Meta:
+        model = Paralax
+        fields = ['img1','img2']

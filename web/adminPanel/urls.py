@@ -1,6 +1,8 @@
 from django.urls import path
 from .views import profile
-from .views import (MyAboutView, 
+from .views import (MessagesView,
+                    UpdateMessageView,
+                    MyAboutView, 
                     MyEdAndWorkView, 
                     CreatePostEdAndWorkView, 
                     UpdatePostEdAndWorkView, 
@@ -9,11 +11,15 @@ from .views import (MyAboutView,
                     CreateCaseView,
                     UpdateCaseView,
                     DeleteCaseView,
-                    UpdateMenuView
+                    UpdateMenuView,
+                    UpdateParalaxView
                     )
 
 urlpatterns = [
-    path("admin-panel/about/", MyAboutView.as_view(), name="about"),
+    path('adminPanel/messages/', MessagesView.as_view(), name="messages"),
+    path('adminPanel/message/update/<int:pk>', UpdateMessageView.as_view(), name="update-message"),
+
+    path('adminPanel/about/', MyAboutView.as_view(), name="about"),
    
     path('adminPanel/ed_and_work/', MyEdAndWorkView.as_view(), name="ed-and-work"),
     path('adminPanel/ed_and_work/create/', CreatePostEdAndWorkView.as_view(), name="create-post-ed-and-work"),
@@ -24,8 +30,9 @@ urlpatterns = [
     path('adminPanel/case/create/', CreateCaseView.as_view(), name="create-case"),
     path('adminPanel/case/update/<int:pk>', UpdateCaseView.as_view(), name="update-case"),
     path('adminPanel/case/delete/<int:pk>', DeleteCaseView.as_view(), name="delete-case"),
-
-    path('adminPanel/menu/', UpdateMenuView.as_view(), name="menu-settings"),
+  
+    path('adminPanel/settings/menu/', UpdateMenuView.as_view(), name="settings-menu"),
+    path('adminPanel/settings/paralax/', UpdateParalaxView.as_view(), name="settings-paralax"),
 
     path("admin-panel/profile/",profile , name="profile"),
     # path('profile/', MyProfileView.as_view(), name="profile")

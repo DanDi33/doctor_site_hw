@@ -1,0 +1,76 @@
+{% extends "adminPanel/base.html" %}
+{% block content %}
+<style>
+    .admin-panel-body {
+        background-image: url('/media/fon-admin-about.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+    }
+</style>
+<div class="container vh-100 d-flex align-items-center">
+    <div id="innerPage">
+        <div class="row align-items-center justify-content-center">
+            <div class="col-12 text-white p-5">
+                <div class="lead">
+                    <h3>Сообщения</h3>
+                    <p class="fs-6 mb-4">
+                        <small class="label-color">Здесь Вы видите список сообщений, присланных Вам клиентами. Сообщения можно пометить как прочитанные или удалить по Вашему желанию.</small>
+                    </p>
+                    <p class="fs-6 mb-4">
+                        <small class="text-warning">Непрочитанных сообщений: </small> <small>{{unread_count}} шт.</small>
+                    </p>
+                </div>
+
+                <!-- <div class="mt-4">
+                                <p class="label-color">
+                                    Имя:
+                                </p>
+                            </div> -->
+                {% if posts %}
+                <ul class="categories">
+                    {% for post in posts %}
+                    <li class="label-color fs-4">
+                        <div class="row mt-2" style="border-bottom: 1px solid #45bdd9;">
+                            <div class="col-9">
+                                <a href="{% url 'update-message' post.id %}" {% if post.completed == 0 %} style="text-decoration: none;color: #ffffff;font-weight: bold;" {% else %} style="text-decoration: none;color: #d4d4d4;" {% endif %}>
+                                    <small>{{ post.name }}, тел. {{ post.phone}}, {{post.created_at|date:"d M Y, H:i"}}</small>
+                                </a>
+                            </div>
+                            <div class="task-controls col-3 card-text d-flex">
+                                <a class="edit px-2 ms-auto" href="{% url 'update-message' post.id %}">
+                                    <i class="bi bi-pencil-square"></i></a>
+                                <a class="edit px-2" href="#"><i class="bi bi-trash"></i></a>
+                            </div>
+                        </div>
+                    </li>
+                    {%endfor%}
+                </ul>
+
+                {% else %}
+                <p class="text-center"> Список пуст!
+                </p>
+                {% endif %}
+
+                {% if messages %}
+                {% for message in messages %}
+                <div class="text-center alert alert-{{message.tags}}">
+                    {{message}}
+                </div>
+                {% endfor %}
+                {% endif %}
+
+            </div>
+        </div>
+        <!-- <div class="row align-items-center justify-content-center">
+            <div class="col-sm-6 col-xs-12 d-sm-block ">
+            </div>
+            <div class="col-sm-6 col-xs-12 d-sm-block  px-5 pb-5">
+                <a href="{% url 'create-case' %}" class="btn btn-info mt-4 w-100"
+                    id="cases-brn">Добавить запись</a>
+            </div>
+        </div> -->
+    </div>
+</div>
+
+{% endblock content %}

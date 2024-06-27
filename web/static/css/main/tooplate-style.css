@@ -429,7 +429,7 @@ b, strong {
 }
 .contact-form .form-control {
   background: transparent;
-  border-radius: 2px;
+  border-radius: 24px;
   outline: none;
   box-shadow: none;
   font-weight: bold;
@@ -615,8 +615,6 @@ b, strong {
 }
 
 .parallax {
-  /* Путь к вашему изображению */
-  background-image: url('/media/fon.jpg');
   
   /* Создаем эффект параллакса */
   height: 100vh; /* Высота секции */
@@ -625,3 +623,4 @@ b, strong {
   background-repeat: no-repeat;
   background-size: cover;
 }
+

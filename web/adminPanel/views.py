@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect
 from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .forms import UserUpdateForm, AboutUpdateForm, UpdateMenuForm
+from .forms import UserUpdateForm, AboutUpdateForm, UpdateMenuForm, UpdateParalaxForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse, reverse_lazy
-from .models import Menu, Case, Ed_and_work
+from .models import Menu, Message, Case, Ed_and_work
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
@@ -26,6 +26,40 @@ def profile(request):
         'current_path': request.path,
         'home_url': reverse('profile')}
     return render(request, "adminPanel/profile.html", {'context': context, 'title': 'Профиль'})
+
+class MessagesView(LoginRequiredMixin,ListView):
+    model = Message
+    template_name = "adminPanel/messages.html"
+    context_object_name = "posts"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Сообщения'
+        context['active'] = 'messages'
+        context['menu'] = request_menu(self.request)
+        context['unread_count'] = Message.objects.filter(completed=False).count()
+        return context
+    
+    def get_queryset(self):
+        return Message.objects.all().order_by('-created_at')
+    
+class UpdateMessageView(LoginRequiredMixin,UpdateView):
+    model = Message
+    fields = ['comment','completed']
+    template_name = "adminPanel/message-form.html"
+    success_url = reverse_lazy('messages')
+
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        messages.success(self.request, "Запись успешно изменена.")
+        return super(UpdateMessageView,self).form_valid(form)
+    
+    def get_context_data(self, **kwargs):
+        context = super(UpdateMessageView, self).get_context_data(**kwargs)
+        context['active'] = 'messages'
+        context['menu'] = request_menu(self.request)
+        return context
 
 class MyAboutView(LoginRequiredMixin, View):
     login_url = '/login/'
@@ -198,24 +232,6 @@ class DeleteCaseView(LoginRequiredMixin,DeleteView):
         context['menu'] = request_menu(self.request)
         return context
 
-# class UpdateMenuView(LoginRequiredMixin,UpdateView):
-#     model = Menu
-#     fields = ['about','services','cases', 'ed_and_work','feedbackes']
-#     template_name = "adminPanel/menu-settings.html"
-#     success_url = reverse_lazy('cases')
-
-
-#     def form_valid(self, form):
-#         form.instance.user = self.request.user
-#         messages.success(self.request, "Запись успешно изменена.")
-#         return super(UpdateMenuView,self).form_valid(form)
-    
-#     def get_context_data(self, **kwargs):
-#         context = super(UpdateMenuView, self).get_context_data(**kwargs)
-#         context['active'] = 'username'
-#         context['menu'] = request_menu(self.request)
-#         return context
-
 class UpdateMenuView(LoginRequiredMixin, View):
     # login_url = '/login/'
     
@@ -225,12 +241,12 @@ class UpdateMenuView(LoginRequiredMixin, View):
         str = ['about', 'services', 'cases']
         context = {      
             'menu_form':menu_form,
-            'active':'menu-settings',
+            'active':'settings-menu',
             'menu':request_menu(self.request),
             'str':str
         }
 
-        return render(request, 'adminPanel/menu-settings.html', context) 
+        return render(request, 'adminPanel/settings-menu.html', context) 
     
     def post(self,request):
 
@@ -240,20 +256,56 @@ class UpdateMenuView(LoginRequiredMixin, View):
         )
 
         if menu_form.is_valid():
-            menu_form.save()
-            
-            messages.success(request,'Your profile has been updated successfully')
-            
-            return redirect('menu-settings')
+            menu_form.save()     
+            messages.success(request,'Меню успешно изменено.')       
+            return redirect('settings-menu')
+        
         else:
             context = {
                 'menu_form': menu_form,
-                # 'active':'username',
-                # 'menu':request_menu(self.request)
+                'active':'settings-menu',
+                'menu':request_menu(self.request)
             }
-            messages.error(request,'Error updating you profile')
+            messages.error(request,'Ошибка при изменении меню')
             
-            return render(request, 'adminPanel/menu-settings.html', context)
+            return render(request, 'adminPanel/settings-menu.html', context)
+
+class UpdateParalaxView(LoginRequiredMixin, View):
+    # login_url = '/login/'
+    
+    def get(self, request):
+        paralax_form = UpdateParalaxForm(instance=request.user.paralax)
+        context = {
+            'title': 'Настройки - картинки паралакс',
+            'paralax_form': paralax_form,
+            'active':'settings-paralax',
+            'menu': request_menu(request)
+            }
+
+        return render(request, 'adminPanel/settings-paralax.html', context) 
+    
+    def post(self,request):
+        paralax_form = UpdateParalaxForm(
+            request.POST,
+            request.FILES,
+            instance=request.user.paralax
+        )
+
+        if paralax_form.is_valid():
+            paralax_form.save()      
+            messages.success(request,'Форма успешна изменена.')
+            
+            return redirect('settings-paralax')
+        else:
+            context = {
+                'title': 'Настройки - картинки паралакс',
+                'paralax_form': paralax_form,
+                'active':'settings-paralax',
+                'menu': request_menu(request)
+            }
+            messages.error(request,'Ошибка при изменении формы.')
+            
+            return render(request, 'adminPanel/settings-paralax.html', context=context)
 
 def request_menu(request):
     user_id = request.user.id  # Получаем id текущего пользователя

@@ -32,6 +32,11 @@
                             </a>
                         </li>
                         <li>
+                            <a href="{% url 'messages' %}" class="nav-link align-middle px-0 admin-menu-text {%if active == 'messages' %} active {% endif %}">
+                                <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Сообщения</span>
+                            </a>
+                        </li>
+                        <li>
                             <a href="{% url 'about' %}" class="nav-link align-middle px-0 admin-menu-text {%if active == 'about' %} active {% endif %}">
                                 <i class="fs-4 bi-file-person"></i> <span class="ms-1 d-none d-sm-inline">{% if menu.about %} {{ menu.about }} {% else %} О себе {% endif %}</span>
                             </a>
@@ -65,7 +70,7 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
                             <li><a class="dropdown-item" href="#">New project...</a></li>
-                            <li><a class="dropdown-item" href="{% url 'menu-settings' %}">Настройки</a></li>
+                            <li><a class="dropdown-item" href="{% url 'settings-menu' %}">Настройки</a></li>
                             <li><a class="dropdown-item" href="{% url 'profile' %}">Профиль</a></li>
                             <li>
                                 <hr class="dropdown-divider">

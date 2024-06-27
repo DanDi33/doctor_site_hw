@@ -1,0 +1,101 @@
+{% extends "adminPanel/base.html" %}
+{% block content %}
+<style>
+    .admin-panel-body {
+        background-image: url('/media/fon-admin-about.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+    }
+</style>
+<div class="container vh-100 d-flex align-items-center">
+
+    <div id="innerPage">
+        {% include 'adminPanel/includes/nav.html' %}
+        <form method="post" novaldiate enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row align-items-right justify-content-center">
+
+                <div class="col-12 text-white px-5">
+                    <div class="lead">
+                        <h3>Паралакс-картинки</h3>
+                        <p class="fs-6 mb-4">
+                            <small>На основной странице Вашего сайта есть 2 картинки с паралакс-эффектом. Здесь Вы
+                                можете их изменить.</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="row align-items-start justify-content-center">
+                <div class="col-sm-6 col-xs-12 px-5">
+                    {% if user.paralax %}
+                    <img src="{{ user.paralax.img1.url }}" alt="{{ user.username }}" class="img-fluid admin-about-img"
+                        accept=".jpg,.jpeg,.png" onclick="id_img1.click()" id="paralax-img1">
+                    {% endif %}
+                    <input class="form-control rounded-0 mb-3" type="file" name="img1" id="id_img1"
+                        style="display: none;" onchange="previewFile('#paralax-img1','#id_img1')" />
+
+                    {% if paralax_menu.img1.errors %}
+                    <small class="text-center alert alert-error">{{paralax_menu.img1.errors|striptags}}</small>
+                    {% endif %}
+                </div>
+                <div class="col-sm-6 col-xs-12 px-5">
+                    {% if user.paralax %}
+                    <img src="{{ user.paralax.img2.url }}" alt="{{ user.username }}" class="img-fluid admin-about-img"
+                        accept=".jpg,.jpeg,.png" onclick="id_img2.click()" id="paralax-img2">
+                    {% endif %}
+                    <input class="form-control rounded-0 mb-3" type="file" name="img2" id="id_img2"
+                        style="display: none;" onchange="previewFile('#paralax-img2','#id_img2')" />
+
+                    {% if paralax_menu.img2.errors %}
+                    <small class="text-center alert alert-error">{{paralax_menu.img2.errors|striptags}}</small>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="row align-items-center justify-content-center">
+                <div class="col-12 px-5 pt-2">
+                    {% if messages %}
+                    {% for message in messages %}
+                    <div class="text-center alert alert-{{message.tags}}">
+                        {{message}}
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row align-items-center justify-content-center">
+                <div class="col-sm-6 col-xs-12 text-white px-5 pt-5">
+                </div>
+
+                <div class="col-sm-6 col-xs-12 d-sm-block  px-5 pb-5">
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="{% url 'about' %}" class="btn btn-info mt-4 w-50">Отмена</a>
+                        <button class="btn btn-info mt-4 w-50" type="submit"> Сохранить </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+
+    function previewFile(idImgTag, idInputTag) {
+        var preview = document.querySelector(idImgTag);
+        let temp_src = preview.src;
+        var file = document.querySelector(idInputTag).files[0];
+        var reader = new FileReader();
+
+        reader.onloadend = function () {
+            preview.src = reader.result;
+        }
+
+        if (file) {
+            reader.readAsDataURL(file);
+        } else {
+            preview.src = temp_src;
+        }
+    }
+</script>
+
+{% endblock content %}
