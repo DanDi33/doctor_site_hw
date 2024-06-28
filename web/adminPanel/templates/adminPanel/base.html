@@ -33,7 +33,7 @@
                         </li>
                         <li>
                             <a href="{% url 'messages' %}" class="nav-link align-middle px-0 admin-menu-text {%if active == 'messages' %} active {% endif %}">
-                                <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Сообщения</span>
+                                <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">{% if menu.messages %} {{ menu.messages }} {% else %}Сообщения {% endif %}</span>
                             </a>
                         </li>
                         <li>
@@ -56,6 +56,11 @@
                         <li>
                             <a href="#" class="nav-link px-0 align-middle admin-menu-text">
                                 <i class="fs-4 bi-chat-text"></i> <span class="ms-1 d-none d-sm-inline">{% if menu.feedbacks %} {{ menu.feedbacks }} {% else %} Отзывы {% endif %}</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="nav-link px-0 align-middle admin-menu-text">
+                                <i class="fs-4 bi-envelope"></i> <span class="ms-1 d-none d-sm-inline">{% if menu.contacts %} {{ menu.contacts }} {% else %} Контакты {% endif %}</span>
                             </a>
                         </li>
                     </ul>

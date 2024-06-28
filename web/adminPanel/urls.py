@@ -22,6 +22,8 @@ urlpatterns = [
     path('adminPanel/message/delete/<int:pk>', DeleteMessageView.as_view(), name="delete-message"),
 
     path('adminPanel/about/', MyAboutView.as_view(), name="about"),
+
+    
    
     path('adminPanel/ed_and_work/', MyEdAndWorkView.as_view(), name="ed-and-work"),
     path('adminPanel/ed_and_work/create/', CreatePostEdAndWorkView.as_view(), name="create-post-ed-and-work"),

@@ -1,0 +1,37 @@
+<section class="ed_and_work full-screen d-lg-flex justify-content-center align-items-center" id="ed_and_work">
+    <div class="container">
+
+
+        <div class="row">
+            <h1 class="animated animated-text text-light">
+                <h2 class="mr-2"><span class="ed_and_work orange">Образование</span> <span class="ed_and_work white">и работа</span></h2>
+                <!-- <br> -->
+                <!-- <span class="mr-2" style="font-size: 3vw;">я могу помочь</span> -->
+            </h1>
+        </div>
+        <div class="row">
+            <div class="col-4 py-5"></div>
+            <div class="col-lg-8 col-md-8 col-8 d-flex align-items-center py-5">
+                <div class="ed_and_work about-text">
+
+                    <ul>
+                        {%for elem in ed_and_works%}
+                        
+                        <li>
+                            <div class="row">
+                                <div class="col-2 d-flex align-items-end">
+                                    <p class="ed_and_work blue text-small">{{elem.year}}</p>
+                                </div>
+                                <div class="col-10">
+                                    <p class="ed_and_work white">{{elem.desc}}</p>
+                                </div>
+                            </div> 
+                            
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

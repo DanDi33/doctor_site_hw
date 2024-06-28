@@ -4,10 +4,10 @@
             
             <div class="col-lg-6 col-md-12 col-12 d-flex align-items-center">
                 <div class="about-text">
-                    <p><span class="profession">{{user.about.profession}}</span></p>
+                    <p><span class="profession">{{cur_user.about.profession}}</span></p>
                     <h1 class="animated animated-text">
-                        <span class="mr-2 text-white" style="font-size: 8vw;">{{user.first_name}}</span>
-                        <span class="mr-2" style="font-size: 8vw;">{{user.last_name}}</span>
+                        <span class="mr-2 text-white" style="font-size: 8vw;">{{cur_user.first_name}}</span>
+                        <span class="mr-2" style="font-size: 8vw;">{{cur_user.last_name}}</span>
                             <!-- <div class="animated-info">
                                 <span class="animated-item">Marvel Sann</span>
                                 <span class="animated-item">Web Designer</span>
@@ -15,7 +15,7 @@
                             </div> -->
                     </h1>
 
-                    <p class="mt-5">{{user.about.slogan}}</p>
+                    <p class="mt-5">{{cur_user.about.slogan}}</p>
                     
                     <!-- <div class="custom-btn-group mt-4">
                       <a href="#" class="btn mr-lg-2 custom-btn"><i class='uil uil-file-alt'></i> Download Resume</a>
@@ -26,7 +26,7 @@
 
             <div class="col-lg-6 col-md-12 col-12">
                 <div class="about-image svg">
-                    <img src="{{user.about.main_foto.url}}" class="img-fluid" alt="svg image">
+                    <img src="{{cur_user.about.main_foto.url}}" class="img-fluid" alt="svg image">
                 </div>
             </div>
 

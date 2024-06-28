@@ -1,8 +1,8 @@
 <!-- MENU -->
 <nav class="navbar navbar-expand-sm navbar-light" style="background-color: rgb(224, 226, 226);">
     <div class="container">
-        <a class="navbar-brand" href="{% url 'about' %}"><i class='uil uil-user'></i> {{user.first_name|slice:"1"}}.
-            {{user.last_name}}</a>
+        <a class="navbar-brand" href="{% if user.is_authenticated %} {% url 'messages' %} {% else %}#about{% endif %}"><i class='uil uil-user'></i> {{cur_user.first_name|slice:"1"}}.
+            {{cur_user.last_name}}</a>
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -43,14 +43,15 @@
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <span data-hover="{% if menu.feedbackes %} {{ menu.feedbackes }} {% else %} Отзывы {% endif %}">
-                            {% if menu.feedbackes %} {{menu.feedbackes }} {% else %} Отзывы {% endif %}
+                        <span data-hover="{% if menu.feedbacks %} {{ menu.feedbacks }} {% else %} Отзывы {% endif %}">
+                            {% if menu.feedbacks %} {{menu.feedbacks }} {% else %} Отзывы {% endif %}
                         </span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="#contact" class="nav-link">
-                        <span data-hover="Контакты">Контакты</span>
+                        <span data-hover="{% if menu.contacts %} {{menu.contacts }} {% else %}Контакты {% endif %}">
+                            {% if menu.contacts %} {{menu.contacts }} {% else %}Контакты {% endif %}</span>
                     </a>
                 </li>
             </ul>

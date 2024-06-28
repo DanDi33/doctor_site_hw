@@ -30,7 +30,7 @@
                 {% if posts %}
                 <ul class="categories">
                     {% for post in posts %}
-                    <li class="label-color fs-4">
+                    <li class="label-color fs-5">
                         <div class="row mt-2" style="border-bottom: 1px solid #45bdd9;">
                             <div class="col-9">
                                 <a href="{% url 'update-message' post.id %}" {% if post.completed == 0 %} style="text-decoration: none;color: #ffffff;font-weight: bold;" {% else %} style="text-decoration: none;color: #d4d4d4;" {% endif %}>
