@@ -4,6 +4,10 @@ from .views import (MessagesView,
                     UpdateMessageView, 
                     DeleteMessageView,
                     MyAboutView, 
+                    ServiceView,
+                    CreateServiceView,
+                    UpdateServiceView,
+                    DeleteServiceView,
                     MyEdAndWorkView, 
                     CreatePostEdAndWorkView, 
                     UpdatePostEdAndWorkView, 
@@ -12,6 +16,8 @@ from .views import (MessagesView,
                     CreateCaseView,
                     UpdateCaseView,
                     DeleteCaseView,
+                    FeedbackView,
+                    CreateFeedbackView,
                     UpdateMenuView,
                     UpdateParalaxView
                     )
@@ -23,8 +29,11 @@ urlpatterns = [
 
     path('adminPanel/about/', MyAboutView.as_view(), name="about"),
 
-    
-   
+    path('adminPanel/services/', ServiceView.as_view(), name="services"),
+    path('adminPanel/service/create/', CreateServiceView.as_view(), name="create-service"),
+    path('adminPanel/service/update/<int:pk>', UpdateServiceView.as_view(), name="update-service"),
+    path('adminPanel/service/delete/<int:pk>', DeleteServiceView.as_view(), name="delete-service"),
+
     path('adminPanel/ed_and_work/', MyEdAndWorkView.as_view(), name="ed-and-work"),
     path('adminPanel/ed_and_work/create/', CreatePostEdAndWorkView.as_view(), name="create-post-ed-and-work"),
     path('adminPanel/ed_and_work/update/<int:pk>', UpdatePostEdAndWorkView.as_view(), name="update-post-ed-and-work"),
@@ -34,6 +43,9 @@ urlpatterns = [
     path('adminPanel/case/create/', CreateCaseView.as_view(), name="create-case"),
     path('adminPanel/case/update/<int:pk>', UpdateCaseView.as_view(), name="update-case"),
     path('adminPanel/case/delete/<int:pk>', DeleteCaseView.as_view(), name="delete-case"),
+
+    path('adminPanel/feedbacks/', FeedbackView.as_view(), name="feedbacks"),
+    path('adminPanel/feedback/create/', CreateFeedbackView.as_view(), name="create-feedback"),
   
     path('adminPanel/settings/menu/', UpdateMenuView.as_view(), name="settings-menu"),
     path('adminPanel/settings/paralax/', UpdateParalaxView.as_view(), name="settings-paralax"),

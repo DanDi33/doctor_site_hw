@@ -26,10 +26,6 @@ body {
   background-color: rgb(44, 40, 59);
 }
 
-.ed_and_work.full-screen {
-  background-color: rgb(107, 70, 40);
-}
-
 .small-text {
   color: #5b5b5b;
   font-size: 14px;
@@ -628,7 +624,62 @@ b, strong {
   background-size: cover;
 }
 
+/* Блок услуги */
+
+.services.full-screen {
+  background-color: #a6c783;
+}
+
+.services.about-text hr {
+  border-top: 1px solid rgb(191, 227, 231);
+}
+
+.services.about-text details {
+  border-bottom: 1px solid rgb(191, 227, 231);
+}
+
+summary {
+  display: flex;
+}
+
+summary::after {
+  content: '';
+  width: 27px;
+  height: 15px;
+  background: url('/media/arrow-down.png');
+  background-size: cover;
+  margin-left: auto;
+  transition: 0.2s;
+}
+
+details[open] > summary::after {
+  transform: rotate(180deg);
+}
+
+.services.block.title {
+  color: rgb(191, 227, 231);
+}
+
+.services.title {
+  color: rgb(72, 98, 168);
+}
+
+.services.desc{
+  color: #012409;
+  font-size: 14px;
+}
+
+.services.price{
+  color: #dfdfdf;
+  font-size: 14px;
+}
+
 /* Блок образование и учеба */
+
+.ed_and_work.full-screen {
+  background-color: rgb(107, 70, 40);
+}
+
 .ed_and_work.orange {
   color: orangered;
 }
@@ -651,7 +702,7 @@ b, strong {
 
 .ed_and_work.about-text ul li {
   padding: 5px 15px;
-  border-bottom: 1px solid rgb(214, 141, 82);;
+  border-bottom: 1px solid rgb(214, 141, 82);
   /* color: #ffffff; */
 
 }

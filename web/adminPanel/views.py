@@ -5,7 +5,7 @@ from .forms import UserUpdateForm, AboutUpdateForm, UpdateMenuForm, UpdateParala
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse, reverse_lazy
-from .models import Menu, Message, Case, Ed_and_work
+from .models import Menu, Message, Service, Case, Ed_and_work, Feedback
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
@@ -121,6 +121,69 @@ class MyAboutView(LoginRequiredMixin, View):
             messages.error(request,'Error updating you profile')
             
             return render(request, 'adminPanel/about.html', context)
+        
+class ServiceView(LoginRequiredMixin,ListView):
+    model = Service
+    template_name = "adminPanel/services.html"
+    context_object_name = "posts"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Услуги'
+        context['active'] = 'services'
+        context['menu'] = request_menu(self.request)
+        return context
+    
+class CreateServiceView(LoginRequiredMixin,CreateView):
+    model = Service
+    fields = ['title','desc','price','img']
+    template_name = "adminPanel/service-form.html"
+    success_url = reverse_lazy('services')
+
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        messages.success(self.request, "Запись успешно создана.")
+        return super(CreateServiceView,self).form_valid(form)
+    
+    def get_context_data(self, **kwargs):
+        context = super(CreateServiceView, self).get_context_data(**kwargs)
+        context['active'] = 'services'
+        context['menu'] = request_menu(self.request)
+        return context
+    
+class UpdateServiceView(LoginRequiredMixin,UpdateView):
+    model = Service
+    fields = ['title','desc','price','img']
+    template_name = "adminPanel/service-form.html"
+    success_url = reverse_lazy('services')
+
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        messages.success(self.request, "Запись успешно изменена.")
+        return super(UpdateServiceView,self).form_valid(form)
+    
+    def get_context_data(self, **kwargs):
+        context = super(UpdateServiceView, self).get_context_data(**kwargs)
+        context['active'] = 'services'
+        context['menu'] = request_menu(self.request)
+        return context
+
+class DeleteServiceView(LoginRequiredMixin,DeleteView):
+    model = Service    
+    success_url = reverse_lazy('services')
+
+    def form_valid(self, form):
+        messages.success(self.request, "Запись успешно удалена. !")
+        return super(DeleteServiceView, self).form_valid(form)
+    
+    def get_context_data(self, **kwargs):
+        context = super(DeleteServiceView, self).get_context_data(**kwargs)
+        context['active'] = 'services'
+        context['menu'] = request_menu(self.request)
+        return context
+
 
 class MyEdAndWorkView(LoginRequiredMixin,ListView):
     model = Ed_and_work
@@ -135,12 +198,12 @@ class MyEdAndWorkView(LoginRequiredMixin,ListView):
         context['menu'] = request_menu(self.request)
         return context
 
+
 class CreatePostEdAndWorkView(LoginRequiredMixin,CreateView):
     model = Ed_and_work
     fields = ['year','desc','diplom_img']
     template_name = "adminPanel/ed-and-work-form.html"
     success_url = reverse_lazy('ed-and-work')
-
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -152,13 +215,13 @@ class CreatePostEdAndWorkView(LoginRequiredMixin,CreateView):
         context['active'] = 'ed_and_work'
         context['menu'] = request_menu(self.request)
         return context
-    
+
+
 class UpdatePostEdAndWorkView(LoginRequiredMixin,UpdateView):
     model = Ed_and_work
     fields = ['year','desc','diplom_img']
     template_name = "adminPanel/ed-and-work-form.html"
     success_url = reverse_lazy('ed-and-work')
-
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -170,6 +233,7 @@ class UpdatePostEdAndWorkView(LoginRequiredMixin,UpdateView):
         context['active'] = 'ed_and_work'
         context['menu'] = request_menu(self.request)
         return context
+
 
 class DeletePostEdAndWorkView(LoginRequiredMixin,DeleteView):
     model = Ed_and_work    
@@ -184,7 +248,8 @@ class DeletePostEdAndWorkView(LoginRequiredMixin,DeleteView):
         context['active'] = 'ed_and_work'
         context['menu'] = request_menu(self.request)
         return context
-    
+
+
 class MyCaseView(LoginRequiredMixin,ListView):
     model = Case
     template_name = "adminPanel/case.html"
@@ -197,12 +262,12 @@ class MyCaseView(LoginRequiredMixin,ListView):
         context['menu'] = request_menu(self.request)
         return context
 
+
 class CreateCaseView(LoginRequiredMixin,CreateView):
     model = Case
     fields = ['post']
     template_name = "adminPanel/case-form.html"
     success_url = reverse_lazy('cases')
-
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -214,13 +279,13 @@ class CreateCaseView(LoginRequiredMixin,CreateView):
         context['active'] = 'cases'
         context['menu'] = request_menu(self.request)
         return context
-    
+
+
 class UpdateCaseView(LoginRequiredMixin,UpdateView):
     model = Case
     fields = ['post']
     template_name = "adminPanel/case-form.html"
     success_url = reverse_lazy('cases')
-
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -232,7 +297,8 @@ class UpdateCaseView(LoginRequiredMixin,UpdateView):
         context['active'] = 'cases'
         context['menu'] = request_menu(self.request)
         return context
-    
+
+
 class DeleteCaseView(LoginRequiredMixin,DeleteView):
     model = Case    
     success_url = reverse_lazy('cases')
@@ -246,6 +312,7 @@ class DeleteCaseView(LoginRequiredMixin,DeleteView):
         context['active'] = 'cases'
         context['menu'] = request_menu(self.request)
         return context
+
 
 class UpdateMenuView(LoginRequiredMixin, View):
     # login_url = '/login/'
@@ -284,6 +351,57 @@ class UpdateMenuView(LoginRequiredMixin, View):
             messages.error(request,'Ошибка при изменении меню')
             
             return render(request, 'adminPanel/settings-menu.html', context)
+
+
+class  FeedbackView(LoginRequiredMixin,ListView):
+    model = Feedback
+    template_name = "adminPanel/feedbacks.html"
+    context_object_name = "posts"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Отзывы'
+        context['active'] = 'feedbacks'
+        context['menu'] = request_menu(self.request)
+        return context
+    
+
+class CreateFeedbackView(LoginRequiredMixin,CreateView):
+    model = Feedback
+    fields = ['name','text','original_img']
+    template_name = "adminPanel/feedback-form.html"
+    success_url = reverse_lazy('feedbacks')
+
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        messages.success(self.request, "Отзыв успешно создана.")
+        return super(CreateFeedbackView,self).form_valid(form)
+    
+    def get_context_data(self, **kwargs):
+        context = super(CreateFeedbackView, self).get_context_data(**kwargs)
+        context['active'] = 'feedbacks'
+        context['menu'] = request_menu(self.request)
+        return context
+    
+class UpdateFeedbackView(LoginRequiredMixin,UpdateView):
+    model = Feedback
+    fields = ['name','text','original_img']
+    template_name = "adminPanel/feedback-form.html"
+    success_url = reverse_lazy('feedbacks')
+
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        messages.success(self.request, "Отзыв успешно изменен.")
+        return super(UpdateFeedbackView,self).form_valid(form)
+    
+    def get_context_data(self, **kwargs):
+        context = super(UpdateFeedbackView, self).get_context_data(**kwargs)
+        context['active'] = 'feedbacks'
+        context['menu'] = request_menu(self.request)
+        return context
+
 
 class UpdateParalaxView(LoginRequiredMixin, View):
     # login_url = '/login/'

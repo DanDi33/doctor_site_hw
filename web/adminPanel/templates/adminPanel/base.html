@@ -42,7 +42,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="nav-link px-0 align-middle admin-menu-text">
+                            <a href="{% url 'services' %}" class="nav-link px-0 align-middle admin-menu-text {%if active == 'services' %} active {% endif %}">
                                 <i class="fs-4 bi-currency-euro"></i> <span class="ms-1 d-none d-sm-inline">{% if menu.services %} {{ menu.services }} {% else %} Услуги {% endif %}</span></a>
                         </li>
                         <li>
@@ -50,11 +50,11 @@
                                 <i class="fs-4 bi-heart-pulse"></i> <span class="ms-1 d-none d-sm-inline">{% if menu.cases %} {{ menu.cases }} {% else %} Кейсы {% endif %}</span></a>
                         </li>
                         <li>
-                            <a href="{% url 'ed-and-work' %}" class="nav-link px-0 align-middl admin-menu-text {%if active == 'ed_and_work' %} active {% endif %}e">
+                            <a href="{% url 'ed-and-work' %}" class="nav-link px-0 align-middl admin-menu-text {%if active == 'ed_and_work' %} active {% endif %}">
                                 <i class="fs-4 bi-mortarboard"></i> <span class="ms-1 d-none d-sm-inline">{% if menu.ed_and_work %} {{ menu.ed_and_work }} {% else %} Образование и работа {% endif %}</span></a>
                         </li>
                         <li>
-                            <a href="#" class="nav-link px-0 align-middle admin-menu-text">
+                            <a href="{% url 'feedbacks' %}" class="nav-link px-0 align-middle admin-menu-text {%if active == 'feedbacks' %} active {% endif %}">
                                 <i class="fs-4 bi-chat-text"></i> <span class="ms-1 d-none d-sm-inline">{% if menu.feedbacks %} {{ menu.feedbacks }} {% else %} Отзывы {% endif %}</span>
                             </a>
                         </li>

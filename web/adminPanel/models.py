@@ -69,6 +69,13 @@ class Ed_and_work(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
+class Feedback(models.Model):
+    name = models.CharField('Имя', max_length=200, null=False, blank=False)
+    text = models.TextField('Отзыв', null=False, blank=False)
+    original_img = models.ImageField(upload_to="Feedback_img", null=True, blank=True)
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
 class Paralax(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 

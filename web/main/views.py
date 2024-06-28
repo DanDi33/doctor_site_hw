@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from adminPanel.models import Menu, Case, Message, Ed_and_work
+from adminPanel.models import Menu, Case, Message, Service, Ed_and_work
 from django.urls import reverse
 from django.contrib.auth.models import User
 from django.views.generic.edit import CreateView
@@ -55,6 +55,7 @@ class HomeView(CreateView):
         context = super(HomeView, self).get_context_data(**kwargs)
         user = User.objects.first()
         cases = Case.objects.filter(user_id=user.id)
+        services = Service.objects.filter(user_id=user.id)
         ed_and_works = Ed_and_work.objects.filter(user_id=user.id)
         context.update({
             'title': 'Главная страница',
@@ -62,6 +63,7 @@ class HomeView(CreateView):
             'active':'home',
             'menu': request_menu(self.request,user.id),
             'cases': cases,
+            'services':services,
             'ed_and_works': ed_and_works,
             'cur_user':user,
             'home_url': reverse('home')

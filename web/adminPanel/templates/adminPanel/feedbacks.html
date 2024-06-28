@@ -13,33 +13,27 @@
         <div class="row align-items-center justify-content-center">
             <div class="col-12 text-white px-5 pt-5">
                 <div class="lead">
-                    <h3>Образование и работа</h3>
+                    <h3>Отзывы</h3>
                     <p class="fs-6 mb-4">
-                        <small class="label-color">Здесь Вы можете добавить или удалить данные о Вашем образовании и
-                            работе.</small>
+                        <small class="label-color">Здесь Вы можете добавить или удалить отзывы благодарных клиентов.</small>
                     </p>
                 </div>
 
-                <!-- <div class="mt-4">
-                                <p class="label-color">
-                                    Имя:
-                                </p>
-                            </div> -->
                 {% if posts %}
                 <ol class="categories">
                     {% for post in posts %}
                     <li class="label-color fs-5">
                         <div class="row mt-2" style="border-bottom: 1px solid #45bdd9;">
                             <div class="col-9">
-                                <a href="{% url 'update-post-ed-and-work' post.id %}" style="text-decoration: none;color: #ffffff;">
-                                    <small style="font-weight: bold;">{{ post.year }}</small>
-                                    <small> - {{ post.desc }}</small>
+                                <a href="#" style="text-decoration: none;color: #ffffff;">
+                                    <small>{{ post.text|slice:":40" }} ...</small>
+                                    <small class="text-warning"> - {{ post.name }}</small>
                                 </a>
                             </div>
                             <div class="task-controls col-3 card-text d-flex">
-                                <a class="edit px-2 ms-auto" href="{% url 'update-post-ed-and-work' post.id %}">
+                                <a class="edit px-2 ms-auto" href="#">
                                     <i class="bi bi-pencil-square"></i></a>
-                                <a class="edit px-2" href="{% url 'delete-post-ed-and-work' post.id %}"><i class="bi bi-trash"></i></a>
+                                <a class="edit px-2" href="#"><i class="bi bi-trash"></i></a>
                             </div>
                         </div>
                     </li>
@@ -48,7 +42,7 @@
 
                 {% else %}
                 <p class="text-center"> Список пуст!
-                    <a href="{% url 'create-post-ed-and-work' %}">Добавить запись</a>
+                    <a href="{% url 'create-feedback' %}">Добавить отзыв</a>
                 </p>
                 {% endif %}
 
@@ -66,30 +60,11 @@
             <div class="col-sm-6 col-xs-12 d-sm-block ">
             </div>
             <div class="col-sm-6 col-xs-12 d-sm-block  px-5 pb-5">
-                <a href="{% url 'create-post-ed-and-work' %}" class="btn btn-info mt-4 w-100"
-                    id="ed-and-work-brn">Добавить запись</a>
+                <a href="{% url 'create-feedback' %}" class="btn btn-info mt-4 w-100"
+                    id="ed-and-work-brn">Добавить отзыв</a>
             </div>
         </div>
     </div>
 </div>
 
-<script>
-
-    function previewFile() {
-        var preview = document.querySelector('#about-img');
-        let temp_src = preview.src;
-        var file = document.querySelector('#id_main_foto').files[0];
-        var reader = new FileReader();
-
-        reader.onloadend = function () {
-            preview.src = reader.result;
-        }
-
-        if (file) {
-            reader.readAsDataURL(file);
-        } else {
-            preview.src = temp_src;
-        }
-    }
-</script>
 {% endblock content %}

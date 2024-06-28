@@ -1,0 +1,123 @@
+{% extends "adminPanel/base.html" %}
+{% block content %}
+<style>
+    .admin-panel-body {
+        background-image: url('/media/fon-admin-about.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+    }
+</style>
+<div class="container vh-100 d-flex align-items-center">
+    <div id="innerPage">
+        <form method="post" novaldiate enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row align-items-center justify-content-center">
+
+                <div class="col-sm-6 col-xs-12 text-white px-5 pt-5">
+
+                    <div class="lead">
+                        <h3>{% if ed_and_work %} Редактировать {% else %} Добавить {% endif %} запись</h3>
+                        <!-- <p class="fs-6 mb-4">
+                            <small>Здесь Вы можете добавить или удалить данные о Вашем образовании и работе.</small>
+                        </p> -->
+                    </div>
+
+                    <div class="mt-4">
+                        <p class="label-color">
+                            Заголовок:
+                        </p>
+                    </div>
+                    <input class="form-control rounded-0 mb-3" type="text" name="title" id="id_title"
+                        placeholder="Введите название услуги" {% if service %} value="{{form.title.value}}" {% endif %} />
+                    {% if form.title.errors %}
+                    <small class="text-center alert alert-error">{{form.title.errors|striptags}}</small>
+                    {% endif %}
+
+                    <div class="mt-4">
+                        <p class="label-color">
+                            Краткое описание:
+                        </p>
+                    </div>
+                    <textarea class="form-control rounded-0 mb-3" type="text" name="desc" id="id_desc" rows="5"
+                        placeholder="Введите описание">{{ form.desc.value|default_if_none:"" }}</textarea>
+
+                    {% if form.desc.errors %}
+                    <small class="text-center alert alert-error">{{form.desc.errors|striptags}}</small>
+                    {% endif %}
+
+                    <div class="mt-4">
+                        <p class="label-color">
+                            Стоимость:
+                        </p>
+                    </div>
+                    <input class="form-control rounded-0 mb-3" type="text" name="price" id="id_price"
+                        placeholder="Введите стоимость услуги" {% if service %} value="{{form.price.value}}" {% endif %} />
+                    {% if form.price.errors %}
+                    <small class="text-center alert alert-error">{{form.price.errors|striptags}}</small>
+                    {% endif %}
+                    <!-- {% for field in form %}
+                    {% if field.errors %}
+                    <small class="text-center alert alert-error">{{field.errors|striptags}}</small>
+                    {% endif %}
+                    {% endfor %}     -->
+
+                    {% if messages %}
+                    {% for message in messages %}
+                    <div class="text-center alert alert-{{message.tags}}">
+                        {{message}}
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+
+                </div>
+                <div class="col-sm-6 col-xs-12 px-5 pt-5">
+                    <img src="{% if service.img %} {{ service.img.url }} {% else %} /media/service-form.png {% endif %}"
+                        alt="{{ user.username }}" class="img-fluid admin-about-img" accept=".jpg,.jpeg,.png"
+                        onclick="id_img.click()" id="service_form_img">
+
+                    <input class="form-control rounded-0 mb-3" type="file" name="img" id="id_img"
+                        style="display: none;" onchange="previewFile()" />
+                    {% if form.img.errors %}
+                    <small class="text-center alert alert-error">{{form.img.errors|striptags}}</small>
+                    {% endif %}
+                </div>
+                <div class="row align-items-center justify-content-center">
+
+                    <div class="col-sm-6 col-xs-12 text-white px-5 pt-5">
+                    </div>
+
+                    <div class="col-sm-6 col-xs-12 d-sm-block  px-5 pb-5">
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a href="{% url 'services' %}" class="btn btn-info mt-4 w-50">Отмена</a>
+                            <button class="btn btn-info mt-4 w-50" type="submit">
+                                {% if service %} Изменить {% else %} Сохранить {% endif %}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+        </form>
+    </div>
+</div>
+
+<script>
+
+    function previewFile() {
+        var preview = document.querySelector('#service_form_img');
+        let temp_src = preview.src;
+        var file = document.querySelector('#id_img').files[0];
+        var reader = new FileReader();
+
+        reader.onloadend = function () {
+            preview.src = reader.result;
+        }
+
+        if (file) {
+            reader.readAsDataURL(file);
+        } else {
+            preview.src = temp_src;
+        }
+    }
+</script>
+
+{% endblock content %}

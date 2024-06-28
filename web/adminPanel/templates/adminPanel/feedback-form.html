@@ -1,0 +1,114 @@
+{% extends "adminPanel/base.html" %}
+{% block content %}
+<style>
+    .admin-panel-body {
+        background-image: url('/media/fon-admin-about.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+    }
+</style>
+<div class="container vh-100 d-flex align-items-center">
+    <div id="innerPage">
+        <form method="post" novaldiate enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row align-items-center justify-content-center">
+
+                <div class="col-sm-6 col-xs-12 text-white px-5 pt-5">
+
+                    <div class="lead">
+                        <h3>{% if ed_and_work %} Редактировать {% else %} Добавить {% endif %} отзыв</h3>
+                        <!-- <p class="fs-6 mb-4">
+                            <small>Здесь Вы можете добавить или удалить данные о Вашем образовании и работе.</small>
+                        </p> -->
+                    </div>
+
+                    <div class="mt-4">
+                        <p class="label-color">
+                            Имя(псевдоним):
+                        </p>
+                    </div>
+                    <input class="form-control rounded-0 mb-3" type="text" name="name" id="id_name"
+                        placeholder="Введите имя" {% if feedback %} value="{{form.name.value}}" {% endif %} />
+                    {% if form.name.errors %}
+                    <small class="text-center alert alert-error">{{form.name.errors|striptags}}</small>
+                    {% endif %}
+
+                    <div class="mt-4">
+                        <p class="label-color">
+                            Текст отзыва:
+                        </p>
+                    </div>
+                    <textarea class="form-control rounded-0 mb-3" type="text" name="text" id="id_text" rows="5"
+                        placeholder="Введите описание">{{ form.text.value|default_if_none:"" }}</textarea>
+
+                    {% if form.text.errors %}
+                    <small class="text-center alert alert-error">{{form.text.errors|striptags}}</small>
+                    {% endif %}
+
+                    
+                    <!-- {% for field in form %}
+                    {% if field.errors %}
+                    <small class="text-center alert alert-error">{{field.errors|striptags}}</small>
+                    {% endif %}
+                    {% endfor %}     -->
+
+                    {% if messages %}
+                    {% for message in messages %}
+                    <div class="text-center alert alert-{{message.tags}}">
+                        {{message}}
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+
+                </div>
+                <div class="col-sm-6 col-xs-12 px-5 pt-5">
+                    <img src="{% if feedback.original_img %} {{ feedback.original_img.url }} {% else %} /media/default-feedback.png {% endif %}"
+                        alt="{{ user.username }}" class="img-fluid admin-about-img" accept=".jpg,.jpeg,.png"
+                        onclick="id_original_img.click()" id="feedback_form_img">
+
+                    <input class="form-control rounded-0 mb-3" type="file" name="original_img" id="id_original_img"
+                        style="display: none;" onchange="previewFile()" />
+                    {% if form.img.errors %}
+                    <small class="text-center alert alert-error">{{form.img.errors|striptags}}</small>
+                    {% endif %}
+                </div>
+                <div class="row align-items-center justify-content-center">
+
+                    <div class="col-sm-6 col-xs-12 text-white px-5 pt-5">
+                    </div>
+
+                    <div class="col-sm-6 col-xs-12 d-sm-block  px-5 pb-5">
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a href="{% url 'feedbacks' %}" class="btn btn-info mt-4 w-50">Отмена</a>
+                            <button class="btn btn-info mt-4 w-50" type="submit">
+                                {% if service %} Изменить {% else %} Сохранить {% endif %}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+        </form>
+    </div>
+</div>
+
+<script>
+
+    function previewFile() {
+        var preview = document.querySelector('#feedback_form_img');
+        let temp_src = preview.src;
+        var file = document.querySelector('#id_original_img').files[0];
+        var reader = new FileReader();
+
+        reader.onloadend = function () {
+            preview.src = reader.result;
+        }
+
+        if (file) {
+            reader.readAsDataURL(file);
+        } else {
+            preview.src = temp_src;
+        }
+    }
+</script>
+
+{% endblock content %}
