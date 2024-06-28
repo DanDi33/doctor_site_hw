@@ -1,7 +1,8 @@
 from django.urls import path
 from .views import profile
 from .views import (MessagesView,
-                    UpdateMessageView,
+                    UpdateMessageView, 
+                    DeleteMessageView,
                     MyAboutView, 
                     MyEdAndWorkView, 
                     CreatePostEdAndWorkView, 
@@ -18,6 +19,7 @@ from .views import (MessagesView,
 urlpatterns = [
     path('adminPanel/messages/', MessagesView.as_view(), name="messages"),
     path('adminPanel/message/update/<int:pk>', UpdateMessageView.as_view(), name="update-message"),
+    path('adminPanel/message/delete/<int:pk>', DeleteMessageView.as_view(), name="delete-message"),
 
     path('adminPanel/about/', MyAboutView.as_view(), name="about"),
    

@@ -40,7 +40,7 @@
                             <div class="task-controls col-3 card-text d-flex">
                                 <a class="edit px-2 ms-auto" href="{% url 'update-message' post.id %}">
                                     <i class="bi bi-pencil-square"></i></a>
-                                <a class="edit px-2" href="#"><i class="bi bi-trash"></i></a>
+                                <a class="edit px-2" href="{% url 'delete-message' post.id %}"><i class="bi bi-trash"></i></a>
                             </div>
                         </div>
                     </li>

@@ -60,6 +60,21 @@ class UpdateMessageView(LoginRequiredMixin,UpdateView):
         context['active'] = 'messages'
         context['menu'] = request_menu(self.request)
         return context
+    
+class DeleteMessageView(LoginRequiredMixin,DeleteView):
+    model = Message    
+    success_url = reverse_lazy('messages')
+
+    def form_valid(self, form):
+        messages.success(self.request, "Сообщение успешно удалено.")
+        return super(DeleteMessageView, self).form_valid(form)
+    
+    def get_context_data(self, **kwargs):
+        context = super(DeleteMessageView, self).get_context_data(**kwargs)
+        context['active'] = 'messages'
+        context['menu'] = request_menu(self.request)
+        return context
+    
 
 class MyAboutView(LoginRequiredMixin, View):
     login_url = '/login/'
@@ -310,8 +325,6 @@ class UpdateParalaxView(LoginRequiredMixin, View):
 def request_menu(request):
     user_id = request.user.id  # Получаем id текущего пользователя
     menu = Menu.objects.filter(user_id=user_id).first()  # Используем user_id для фильтрации
-    # Если вы хотите получить доступ к определенному полю каждого объекта в QuerySet,
-    # вам нужно будет перебрать QuerySet, например:
 
     # print(f"menu - {menu.about}")
     return menu
