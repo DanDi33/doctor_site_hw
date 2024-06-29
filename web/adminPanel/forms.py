@@ -15,7 +15,7 @@ class AboutUpdateForm(forms.ModelForm):
 class UpdateMenuForm(forms.ModelForm):
     class Meta:
         model = Menu
-        fields = ['about','services','cases', 'ed_and_work','feedbacks']
+        fields = ['messages','about','services','cases', 'ed_and_work','feedbacks','contacts']
 
 class UpdateParalaxForm(forms.ModelForm):
     class Meta:

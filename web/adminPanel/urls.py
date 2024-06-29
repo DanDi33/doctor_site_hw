@@ -18,6 +18,8 @@ from .views import (MessagesView,
                     DeleteCaseView,
                     FeedbackView,
                     CreateFeedbackView,
+                    UpdateFeedbackView,
+                    DeleteFeedbackView,
                     UpdateMenuView,
                     UpdateParalaxView
                     )
@@ -46,6 +48,8 @@ urlpatterns = [
 
     path('adminPanel/feedbacks/', FeedbackView.as_view(), name="feedbacks"),
     path('adminPanel/feedback/create/', CreateFeedbackView.as_view(), name="create-feedback"),
+    path('adminPanel/feedback/update/<int:pk>', UpdateFeedbackView.as_view(), name="update-feedback"),
+    path('adminPanel/feedback/delete/<int:pk>', DeleteFeedbackView.as_view(), name="delete-feedback"),
   
     path('adminPanel/settings/menu/', UpdateMenuView.as_view(), name="settings-menu"),
     path('adminPanel/settings/paralax/', UpdateParalaxView.as_view(), name="settings-paralax"),

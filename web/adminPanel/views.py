@@ -320,7 +320,7 @@ class UpdateMenuView(LoginRequiredMixin, View):
     def get(self, request):
 
         menu_form = UpdateMenuForm(instance=request.user.menu)
-        str = ['about', 'services', 'cases']
+        str = ['messages','about', 'services', 'cases']
         context = {      
             'menu_form':menu_form,
             'active':'settings-menu',
@@ -401,6 +401,21 @@ class UpdateFeedbackView(LoginRequiredMixin,UpdateView):
         context['active'] = 'feedbacks'
         context['menu'] = request_menu(self.request)
         return context
+    
+
+class DeleteFeedbackView(LoginRequiredMixin,DeleteView):
+    model = Feedback    
+    success_url = reverse_lazy('feedbacks')
+
+    def form_valid(self, form):
+        messages.success(self.request, "Отзыв успешно удален.")
+        return super(DeleteFeedbackView, self).form_valid(form)
+    
+    def get_context_data(self, **kwargs):
+        context = super(DeleteFeedbackView, self).get_context_data(**kwargs)
+        context['active'] = 'feedbacks'
+        context['menu'] = request_menu(self.request)
+        return context   
 
 
 class UpdateParalaxView(LoginRequiredMixin, View):

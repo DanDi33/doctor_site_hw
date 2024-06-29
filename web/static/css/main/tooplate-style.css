@@ -584,7 +584,7 @@ b, strong {
   border-right: 1px solid #ffffff;
 }
 
-.about-text ol {
+.cases.about-text ol {
   -webkit-column-count: 2; /* Chrome, Safari, Opera */
   -moz-column-count: 2;    /* Firefox */
   column-count: 2;         /* стандартное свойство */
@@ -596,18 +596,17 @@ b, strong {
 
 /* Медиа-запрос для экранов меньше 768 пикселей */
 @media screen and (max-width: 768px) {
-  .about-text ol {
+  .cases.about-text ol {
     -webkit-column-count: 1;
     -moz-column-count: 1;
     column-count: 1;
   }
 }
 
-.about-text ol li {
+.cases.about-text ol li {
   padding: 5px 15px;
   border-bottom: 1px solid #cccccc;
   color: #ffffff;
-
 }
 
 .about-text ol li p{
@@ -705,4 +704,61 @@ details[open] > summary::after {
   border-bottom: 1px solid rgb(214, 141, 82);
   /* color: #ffffff; */
 
+}
+
+/* Блок отзывы */
+
+.feedbacks.full-screen {
+  background-color: rgb(133, 132, 226);
+}
+
+.feedbacks.title{
+  color: #1f1f1f;
+}
+
+.feedbacks.text {
+  color: #1f1f1f;
+  padding: 10px;
+  font-size: 12px;
+}
+
+.feedbacks.about-text ol {
+  -webkit-column-count: 2; /* Chrome, Safari, Opera */
+  -moz-column-count: 2;    /* Firefox */
+  column-count: 2;         /* стандартное свойство */
+  
+  -webkit-column-gap: 40px; /* Chrome, Safari, Opera */
+  -moz-column-gap: 40px;    /* Firefox */
+  column-gap: 40px;         /* стандартное свойство */
+}
+
+/* Медиа-запрос для экранов меньше 768 пикселей */
+@media screen and (max-width: 768px) {
+  .feedbacks.about-text ol {
+    -webkit-column-count: 1;
+    -moz-column-count: 1;
+    column-count: 1;
+  }
+}
+
+.feedbacks.about-text ol li p {
+  background-color: white;
+  border-radius: 20px;
+ 
+}
+
+.feedbacks.white {
+  color: white;
+}
+
+.feedbacks.white {
+  color: white;
+}
+
+.feedbacks.lightgray {
+  color: lightgrey;
+}
+
+.feedbacks.blue {
+  color: blue;
 }
