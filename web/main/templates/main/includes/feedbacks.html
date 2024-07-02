@@ -1,63 +1,73 @@
 <style>
-/* Центрирование контента карточки */
-.feedback-card .card-body {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-}
+    /* Центрирование контента карточки */
+    .feedback-card .card-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+    }
 
-/* Опционально: Сделать текст более читаемым */
-.feedback-card .card-text {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 5; /* Показывает не более 5 строк текста */
-    -webkit-box-orient: vertical;
-}
-#feedbackModal .modal-content {
-    border-radius: 15px;
-    background-color: #f8f9fa; /* Светлый фон для контраста с темной страницей */
-    color: #333;
-}
+    /* Опционально: Сделать текст более читаемым */
+    .feedback-card .card-text {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 5;
+        /* Показывает не более 5 строк текста */
+        -webkit-box-orient: vertical;
+    }
 
-#feedbackModal .modal-header {
-    border-bottom: none;
-    padding-bottom: 0;
-}
+    #feedbackModal .modal-content {
+        border-radius: 15px;
+        background-color: #f8f9fa;
+        /* Светлый фон для контраста с темной страницей */
+        color: #333;
+    }
 
-#feedbackModal .modal-body {
-    padding-top: 0;
-}
+    #feedbackModal .modal-header {
+        border-bottom: none;
+        padding-bottom: 0;
+    }
 
-#feedbackModal .modal-footer {
-    border-top: none;
-}
+    #feedbackModal .modal-body {
+        padding-top: 0;
+    }
 
-/* Стили для текста внутри модального окна */
-#feedbackModalText {
-    font-size: 1.1rem;
-    line-height: 1.5;
-}
+    #feedbackModal .modal-footer {
+        border-top: none;
+    }
 
-#feedbackModalName {
-    font-weight: bold;
-    color: #007bff; /* Цвет текста, чтобы он выделялся */
-}
+    /* Стили для текста внутри модального окна */
+    #feedbackModalText {
+        font-size: 1.1rem;
+        line-height: 1.5;
+    }
+
+    #feedbackModalName {
+        font-weight: bold;
+        color: #007bff;
+        /* Цвет текста, чтобы он выделялся */
+    }
 </style>
 
-<section class="feedbacks py-5 bg-dark text-light" id="feedbacks">
+<section class="feedbacks full-screen bg-dark text-light d-lg-flex justify-content-center align-items-center"
+    id="feedbacks">
     <div class="container">
-        <div class="text-center mb-4 ">
-            <h2 class="display-4 text-light">Отзывы</h2>
-            <p class="lead text-light-30">Что говорят наши клиенты</p>
+        <div class="row">
+            <div class="col-12 text-center">
+                <h1 class="animated animated-text text-light">
+                    Отзывы</h1>
+                <p class="lead text-light-30">Что говорят наши клиенты</p>
+            </div>
         </div>
         <div id="feedbacksCarousel" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
                 {% for feedback in feedbacks %}
                 <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                    <div class="feedback-card card bg-light text-dark p-4 mx-auto" style="max-width: 600px; height: 350px;" data-toggle="modal" data-target="#feedbackModal" data-text="{{ feedback.text }}" data-name="{{ feedback.name }}">
+                    <div class="feedback-card card bg-light text-dark p-4 mx-auto"
+                        style="max-width: 600px; height: 350px;" data-toggle="modal" data-target="#feedbackModal"
+                        data-text="{{ feedback.text }}" data-name="{{ feedback.name }}">
                         <div class="card-body d-flex flex-column justify-content-center align-items-center">
                             <p class="card-text text-center mb-4">“{{ feedback.text }}”</p>
                             <div class="feedback-author mt-auto text-center">
@@ -83,7 +93,8 @@
 </section>
 
 <!-- Модальное окно -->
-<div class="modal fade" id="feedbackModal" tabindex="-1" role="dialog" aria-labelledby="feedbackModalLabel" aria-hidden="true">
+<div class="modal fade" id="feedbackModal" tabindex="-1" role="dialog" aria-labelledby="feedbackModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -94,7 +105,8 @@
             </div>
             <div class="modal-body">
                 <p id="feedbackModalText"></p>
-                <small class="feedbacks lightgray">Имя: </small><span class="feedbacks blue px-3" id="feedbackModalName"></span>
+                <small class="feedbacks lightgray">Имя: </small><span class="feedbacks blue px-3"
+                    id="feedbackModalName"></span>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>

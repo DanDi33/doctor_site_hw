@@ -84,3 +84,10 @@ class Paralax(models.Model):
 
     def __str__(self):
         return f"It's {self.user.username}'s paralax"
+    
+class LogMessage(models.Model):
+    username = models.CharField('Пользователь', max_length=200, null=True, blank=True)
+    text = models.TextField('Лог', null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    user = models.ForeignKey(User, on_delete=models.DO_NOTHING)

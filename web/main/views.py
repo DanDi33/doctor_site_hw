@@ -36,7 +36,7 @@ class HomeView(CreateView):
         form.instance.user = User.objects.first()
         phone_number = form.cleaned_data["phone"]
         cleaned_phone = clean_phone_number(phone_number)
-        print(f"cleaned phone - {cleaned_phone}")
+        # print(f"cleaned phone - {cleaned_phone}")
         send_mail(
             f'Сообщение от {form.cleaned_data["name"]}',
             f'Вам пришло сообщение от пользователя - "{form.cleaned_data["name"]}", '
@@ -56,7 +56,7 @@ class HomeView(CreateView):
         user = User.objects.first()
         cases = Case.objects.filter(user_id=user.id)
         services = Service.objects.filter(user_id=user.id)
-        ed_and_works = Ed_and_work.objects.filter(user_id=user.id)
+        ed_and_works = Ed_and_work.objects.filter(user_id=user.id).order_by('-year')
         feedbacks = Feedback.objects.filter(user_id=user.id)
         context.update({
             'title': 'Главная страница',

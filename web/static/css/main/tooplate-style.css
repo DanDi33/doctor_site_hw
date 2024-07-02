@@ -22,10 +22,6 @@ body {
   background-color: rgb(224, 226, 226);
 }
 
-.cases.full-screen {
-  background-color: rgb(44, 40, 59);
-}
-
 .small-text {
   color: #5b5b5b;
   font-size: 14px;
@@ -626,15 +622,15 @@ b, strong {
 /* Блок услуги */
 
 .services.full-screen {
-  background-color: #a6c783;
+  background-color: rgb(224, 226, 226);
 }
 
 .services.about-text hr {
-  border-top: 1px solid rgb(191, 227, 231);
+  border-top: 1px solid rgb(255, 255, 255);
 }
 
 .services.about-text details {
-  border-bottom: 1px solid rgb(191, 227, 231);
+  border-bottom: 1px solid rgb(255, 255, 255);
 }
 
 summary {
@@ -656,20 +652,20 @@ details[open] > summary::after {
 }
 
 .services.block.title {
-  color: rgb(191, 227, 231);
+  color: black;
 }
 
 .services.title {
-  color: rgb(72, 98, 168);
+  color: #5c6b6e;
 }
 
 .services.desc{
   color: #012409;
-  font-size: 14px;
+  font-size: 15px;
 }
 
 .services.price{
-  color: #dfdfdf;
+  color: black;
   font-size: 14px;
 }
 

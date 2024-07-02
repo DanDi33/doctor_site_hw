@@ -5,9 +5,10 @@ from .forms import UserUpdateForm, AboutUpdateForm, UpdateMenuForm, UpdateParala
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse, reverse_lazy
-from .models import Menu, Message, Service, Case, Ed_and_work, Feedback
+from .models import Menu, Message, Service, Case, Ed_and_work, Feedback, LogMessage
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.utils import timezone
 
 # Create your views here.
 
@@ -51,7 +52,14 @@ class UpdateMessageView(LoginRequiredMixin,UpdateView):
 
 
     def form_valid(self, form):
+        message = form.save(commit=False)
+        formatted_date = timezone.localtime(message.created_at).strftime('%d-%m-%Y %H:%M:%S')
         form.instance.user = self.request.user
+        LogMessage.objects.create(
+            username=self.request.user.username,
+            text=f'Сообщение от {message.name}, созданное {formatted_date}  - изменено.',
+            user=self.request.user
+        )
         messages.success(self.request, "Запись успешно изменена.")
         return super(UpdateMessageView,self).form_valid(form)
     
@@ -66,6 +74,13 @@ class DeleteMessageView(LoginRequiredMixin,DeleteView):
     success_url = reverse_lazy('messages')
 
     def form_valid(self, form):
+        message = self.get_object()
+        formatted_date = timezone.localtime(message.created_at).strftime('%d-%m-%Y %H:%M:%S')
+        LogMessage.objects.create(
+            username=self.request.user.username,
+            text=f'Сообщение от {message.name}, созданное {formatted_date}  - удалено.',
+            user=self.request.user
+        )
         messages.success(self.request, "Сообщение успешно удалено.")
         return super(DeleteMessageView, self).form_valid(form)
     
