@@ -1,0 +1,68 @@
+{% extends "adminPanel/base.html" %}
+{% block content %}
+<style>
+    .admin-panel-body {
+        background-image: url('/media/fon-admin-about.jpg');
+    }
+</style>
+<div class="container">
+
+    <div id="innerPage">
+        {% include 'adminPanel/includes/nav.html' %}
+        <!-- <form method="post" novaldiate enctype="multipart/form-data"> -->
+            <!-- {% csrf_token %} -->
+
+            <div class="row align-items-right justify-content-center">
+                <div class="col-12 text-white px-5">
+                    <div class="lead">
+                        <h3>Логи</h3>
+                        <p class="fs-6 mb-4">
+                            <small class="label-color">Здесь Вы можете увидеть кто изменял данные Вашего сайта.</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row align-items-start justify-content-center">
+                <div class="col-sm-12 col-xs-12 text-white px-5">
+                    <ol>
+                    {% for post in posts %}
+                    <li class="label-color fs-5">
+                        <div class="row">
+                            <div class="col-8">{{post.text}}</div>
+                            <div class="col-2">{{post.created_at|date:"d M Y, H:i"}}</div>
+                            <div class="col-2">{{post.username}}</div>
+                        </div>
+                        {% endfor %}
+                    </ol>   
+                </div>
+            </div>
+
+            <!-- <div class="row align-items-center justify-content-center">
+                <div class="col-12 px-5 pt-2">
+                    {% if messages %}
+                    {% for message in messages %}
+                    <div class="text-center alert alert-{{message.tags}}">
+                        {{message}}
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+            </div> -->
+            
+            <div class="row align-items-center justify-content-center">
+                <div class="col-sm-6 col-xs-12 text-white px-5 pt-5">
+                </div>
+
+                <div class="col-sm-6 col-xs-12 d-sm-block  px-5 pb-5">
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="{% url 'about' %}" class="btn btn-info mt-4 w-50">Отмена</a>
+                        <!-- <button class="btn btn-info mt-4 w-50" type="submit"> Сохранить </button> -->
+                    </div>
+                </div>
+            </div>
+        <!-- </form> -->
+    </div>
+</div>
+
+{% endblock content %}

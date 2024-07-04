@@ -18,8 +18,8 @@
 <body class="admin-panel-body">
     <div class="container-fluid">
         <div class="row flex-nowrap">
-            <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 menu-bg-custom">
-                <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+            <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 custom-menu">
+                <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100 custom-menu-fixed">
                     <a href="/"
                         class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
                         <span class="fs-5 d-none d-sm-inline">Меню</span>
@@ -81,9 +81,6 @@
                                 <hr class="dropdown-divider">
                             </li>
                             <li>
-                                <!-- <a href="{% url 'logout' %}" class="dropdown-item" onclick="event.preventDefault(); this.closest('form').submit();"> -->
-                                <!-- Выйти
-                            </a> -->
                                 <form action="{% url 'logout' %}" method="post">
                                     {% csrf_token %}
                                     <a href="#" class="dropdown-item"

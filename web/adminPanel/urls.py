@@ -21,7 +21,8 @@ from .views import (MessagesView,
                     UpdateFeedbackView,
                     DeleteFeedbackView,
                     UpdateMenuView,
-                    UpdateParalaxView
+                    UpdateParalaxView,
+                    LogsView
                     )
 
 urlpatterns = [
@@ -53,6 +54,7 @@ urlpatterns = [
   
     path('adminPanel/settings/menu/', UpdateMenuView.as_view(), name="settings-menu"),
     path('adminPanel/settings/paralax/', UpdateParalaxView.as_view(), name="settings-paralax"),
+    path('adminPanel/settings/logs/', LogsView.as_view(), name="settings-logs"),
 
     path("admin-panel/profile/",profile , name="profile"),
     # path('profile/', MyProfileView.as_view(), name="profile")

@@ -13,6 +13,13 @@
    --border-radius: 5px;
 }
 
+body {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
 .users-body {
   background: url('/media/fon.jpg') no-repeat;
   background-size: cover;
@@ -96,8 +103,14 @@
 }
 
 /* Кастомизация бокового меню */
-.menu-bg-custom {
+.custom-menu {
   background-color: #476270;
+}
+
+.custom-menu-fixed {
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
 .admin-menu-text {
@@ -135,8 +148,3 @@
   cursor: pointer;
 }
 
-/* placeholder */
-input::-webkit-input-placeholder { color: #ced4da; } /* Chrome/Opera/Safari */
-input::-moz-placeholder          { color: #ced4da; } /* Firefox 19+ */
-input:-moz-placeholder           { color: #ced4da; } /* Firefox 18- */
-input:-ms-input-placeholder      { color: #ced4da; } /* IE 10+ */
