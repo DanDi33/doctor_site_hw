@@ -148,3 +148,20 @@ body {
   cursor: pointer;
 }
 
+.logs{
+  background-color: lightgray;
+  color: black;
+  font-size: 10px;
+}
+
+.logs.title{
+  font-weight: bold;
+  text-align: center;
+}
+
+.logs.list{
+  height: 60vh;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  list-style: none;
+}

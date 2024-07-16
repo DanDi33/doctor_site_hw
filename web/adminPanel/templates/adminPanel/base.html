@@ -59,7 +59,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="nav-link px-0 align-middle admin-menu-text">
+                            <a href="{% url 'contacts' %}" class="nav-link px-0 align-middle admin-menu-text {%if active == 'contacts' %} active {% endif %}">
                                 <i class="fs-4 bi-envelope"></i> <span class="ms-1 d-none d-sm-inline">{% if menu.contacts %} {{ menu.contacts }} {% else %} Контакты {% endif %}</span>
                             </a>
                         </li>

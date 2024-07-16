@@ -20,6 +20,10 @@ from .views import (MessagesView,
                     CreateFeedbackView,
                     UpdateFeedbackView,
                     DeleteFeedbackView,
+                    ContactView,
+                    CreateContactView,
+                    UpdateContactView,
+                    DeleteContactView,
                     UpdateMenuView,
                     UpdateParalaxView,
                     LogsView
@@ -51,6 +55,11 @@ urlpatterns = [
     path('adminPanel/feedback/create/', CreateFeedbackView.as_view(), name="create-feedback"),
     path('adminPanel/feedback/update/<int:pk>', UpdateFeedbackView.as_view(), name="update-feedback"),
     path('adminPanel/feedback/delete/<int:pk>', DeleteFeedbackView.as_view(), name="delete-feedback"),
+
+    path('adminPanel/contacts/', ContactView.as_view(), name="contacts"),
+    path('adminPanel/contact/create/', CreateContactView.as_view(), name="create-contact"),
+    path('adminPanel/contact/update/<int:pk>', UpdateContactView.as_view(), name="update-contact"),
+    path('adminPanel/contact/delete/<int:pk>', DeleteContactView.as_view(), name="delete-contact"),
   
     path('adminPanel/settings/menu/', UpdateMenuView.as_view(), name="settings-menu"),
     path('adminPanel/settings/paralax/', UpdateParalaxView.as_view(), name="settings-paralax"),

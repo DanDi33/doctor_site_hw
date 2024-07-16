@@ -76,6 +76,11 @@ class Feedback(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
+class Contact(models.Model):
+    post = models.TextField(null=False, blank=False)
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
 class Paralax(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
