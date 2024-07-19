@@ -26,10 +26,11 @@ class MessagesView(LoginRequiredMixin,ListView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['posts'] = context['posts'].filter(user_id=self.request.user.id)
         context['title'] = 'Сообщения'
         context['active'] = 'messages'
         context['menu'] = request_menu(self.request)
-        context['unread_count'] = Message.objects.filter(completed=False).count()
+        context['unread_count'] = Message.objects.filter(user_id=self.request.user.id, completed=False).count()
         return context
     
     def get_queryset(self):

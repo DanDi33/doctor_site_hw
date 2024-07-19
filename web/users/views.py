@@ -22,7 +22,9 @@ class MyLoginView(LoginView):
     form_class = LoginForm
 
     def get_success_url(self):
-        return reverse_lazy('home')
+        user = self.request.user
+        url = reverse_lazy('site', args=[user.username])
+        return url
     
     def form_invalid(self, form):
         messages.error(self.request, 'Неверное имя пользователя или пароль.')

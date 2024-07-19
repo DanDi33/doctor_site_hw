@@ -30,10 +30,20 @@ class HomeView(CreateView):
     model = Message
     fields = ['name','phone','comment','completed']
     template_name = "main/main.html"
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('site')
 
     def form_valid(self, form):
-        form.instance.user = User.objects.first()
+        username = self.kwargs.get('username')
+        print(f"username - {username}")
+
+        if not username:
+            print("no username !!!!")
+            form.instance.user = User.objects.first()
+        else:
+            form.instance.user = User.objects.filter(username=username).first()
+            print(f"user.id - {form.instance.user.id}")
+
+        # form.instance.user = User.objects.first()
         phone_number = form.cleaned_data["phone"]
         cleaned_phone = clean_phone_number(phone_number)
         # print(f"cleaned phone - {cleaned_phone}")
@@ -52,8 +62,16 @@ class HomeView(CreateView):
         return super(HomeView,self).form_valid(form)
     
     def get_context_data(self, **kwargs):
+        username = self.kwargs.get('username')
+        print(f"username - {username}")
+        if not username:
+            print("no username !!!!")
+            user = User.objects.first()
+        else:
+            user = User.objects.filter(username=username).first()
+            print(f"user.id - {user.id}")
         context = super(HomeView, self).get_context_data(**kwargs)
-        user = User.objects.first()
+        
         cases = Case.objects.filter(user_id=user.id)
         services = Service.objects.filter(user_id=user.id)
         ed_and_works = Ed_and_work.objects.filter(user_id=user.id).order_by('-year')

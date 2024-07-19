@@ -27,7 +27,7 @@
                     <ul class="nav text-light flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start"
                         id="menu">
                         <li>
-                            <a href="{% url 'home' %}" class="nav-link align-middle px-0 admin-menu-text {%if active == 'home' %} active {% endif %}">
+                            <a href="{% url 'site' username=user.username %}" class="nav-link align-middle px-0 admin-menu-text {%if active == 'home' %} active {% endif %}">
                                 <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Ваш сайт</span>
                             </a>
                         </li>
