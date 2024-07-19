@@ -1,52 +1,35 @@
 from django.shortcuts import render
 from adminPanel.models import Menu, Case, Message, Service, Ed_and_work, Feedback, Contact
-from django.urls import reverse
 from django.contrib.auth.models import User
 from django.views.generic.edit import CreateView
 from django.contrib import messages
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.core.mail import send_mail
+from django.http import HttpResponseRedirect
 import re
 
 
 # Create your views here.
 
-# def home(request):
-#     user = User.objects.first()
-#     cases = Case.objects.filter(user_id=user.id)
-
-#     context = {
-#         'title': 'Главная страница',
-#         'current_path': request.path,
-#         'active':'home',
-#         'menu': request_menu(request,user.id),
-#         'cases': cases,
-#         'user':user,
-#         'home_url': reverse('home')
-#         }
-#     return render(request, "main/main.html", context=context)
-
 class HomeView(CreateView):
     model = Message
     fields = ['name','phone','comment','completed']
     template_name = "main/main.html"
-    success_url = reverse_lazy('site')
+    # success_url = reverse_lazy('site', kwargs={'username': username})
 
     def form_valid(self, form):
         username = self.kwargs.get('username')
-        print(f"username - {username}")
 
         if not username:
-            print("no username !!!!")
             form.instance.user = User.objects.first()
         else:
             form.instance.user = User.objects.filter(username=username).first()
-            print(f"user.id - {form.instance.user.id}")
 
-        # form.instance.user = User.objects.first()
+        form.instance.save()
+
         phone_number = form.cleaned_data["phone"]
         cleaned_phone = clean_phone_number(phone_number)
-        # print(f"cleaned phone - {cleaned_phone}")
+
         send_mail(
             f'Сообщение от {form.cleaned_data["name"]}',
             f'Вам пришло сообщение от пользователя - "{form.cleaned_data["name"]}", '
@@ -59,17 +42,20 @@ class HomeView(CreateView):
                          f'{phone_number}</a>',
         )
         messages.success(self.request, "Запись успешно создана.")
-        return super(HomeView,self).form_valid(form)
+
+        if not username:
+            return HttpResponseRedirect(reverse_lazy('home'))
+        else:
+            return HttpResponseRedirect(reverse_lazy('site', kwargs={'username': username}))
     
     def get_context_data(self, **kwargs):
         username = self.kwargs.get('username')
-        print(f"username - {username}")
+
         if not username:
-            print("no username !!!!")
             user = User.objects.first()
         else:
             user = User.objects.filter(username=username).first()
-            print(f"user.id - {user.id}")
+            
         context = super(HomeView, self).get_context_data(**kwargs)
         
         cases = Case.objects.filter(user_id=user.id)

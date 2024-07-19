@@ -146,6 +146,7 @@ class ServiceView(LoginRequiredMixin,ListView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['posts'] = context['posts'].filter(user_id=self.request.user.id)
         context['title'] = 'Услуги'
         context['active'] = 'services'
         context['menu'] = request_menu(self.request)
@@ -233,6 +234,7 @@ class MyEdAndWorkView(LoginRequiredMixin,ListView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['posts'] = context['posts'].filter(user_id=self.request.user.id)
         context['title'] = 'Образование и работа'
         context['posts'] = context['posts'].filter(user=self.request.user).order_by('year')
         context['active'] = 'ed_and_work'
@@ -322,6 +324,7 @@ class MyCaseView(LoginRequiredMixin,ListView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['posts'] = context['posts'].filter(user_id=self.request.user.id)
         context['title'] = 'Решаемые проблемы'
         context['active'] = 'cases'
         context['menu'] = request_menu(self.request)
@@ -410,6 +413,7 @@ class  FeedbackView(LoginRequiredMixin,ListView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['posts'] = context['posts'].filter(user_id=self.request.user.id)
         context['title'] = 'Отзывы'
         context['active'] = 'feedbacks'
         context['menu'] = request_menu(self.request)
@@ -500,6 +504,7 @@ class ContactView(LoginRequiredMixin,ListView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['posts'] = context['posts'].filter(user_id=self.request.user.id)
         context['title'] = 'Контакты'
         context['active'] = 'contacts'
         context['menu'] = request_menu(self.request)
