@@ -163,3 +163,7 @@ EMAIL_HOST_USER = "kerchek1@yandex.ru"
 EMAIL_HOST_PASSWORD = "pcbyaitpzgurovzw"
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+SERVER_EMAIL = EMAIL_HOST_USER
+EMAIL_ADMIN = EMAIL_HOST_USER

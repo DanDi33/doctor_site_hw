@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, Layout, Field, Div, Button, ButtonHolder, HTML
 from crispy_forms.bootstrap import Modal
+from django.contrib.auth.tokens import default_token_generator
 
 class RegisterForm(UserCreationForm):
     email = forms.EmailField(max_length=254)
@@ -83,24 +84,9 @@ class LoginForm(AuthenticationForm):
         )
 
 
-class MyPasswordResetForm(PasswordResetForm):
-        
-        def __init__(self, *args, **kwargs):
-            super().__init__(*args, **kwargs)
-            self.helper = FormHelper()
-
-            self.helper.form_id = 'id-PasswordResetForm'
-            self.helper.form_class = 'blueForms'
-            self.helper.form_method = 'post'
-            self.helper.form_action = 'submit_survey'
-            self.helper.layout = Layout(
-            Field('email'),
-                ButtonHolder(                    
-                    HTML('<a class="btn btn-secondary" href={% url "login" %}>Отмена</a>'),
-                    Submit('submit', 'Отправить'),
-                    css_class='d-grid gap-2 d-md-flex justify-content-md-end',
-                ),
-             )
+class CustomPasswordResetForm(PasswordResetForm):
+    def send_mail(self,*args,**kwargs):
+        pass
             
 class MySetPasswordForm(SetPasswordForm):
      def __init__(self, *args, **kwargs):
