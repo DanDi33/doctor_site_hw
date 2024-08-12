@@ -68,10 +68,23 @@ body {
   background-size: 95%;
 }
 
+#imgBgn-register {
+  background-image : url('/media/add-user.png');
+  background-repeat: no-repeat;
+  background-size: 95%;
+}
+
 .imgBgn {
   background-size: cover;
   background-position:center;
   min-height:75vh;
+  width:100%;
+  border-radius: 12px 0px 0px 12px;
+  filter: drop-shadow(0 0 20px #83d8ff);
+}
+
+.imgBgn.profile {
+  min-height:30vh;
   width:100%;
   border-radius: 12px 0px 0px 12px;
   filter: drop-shadow(0 0 20px #83d8ff);
@@ -140,11 +153,14 @@ body {
 .label-color {
   color:#31d2f2;
 }
-.admin-about-img {
+.admin-img {
   width: 100%; /* Чтобы изображение было в пределах контейнера */
   height: auto; /* Для сохранения пропорций изображения */
   border-radius: 12px;
   filter: drop-shadow(0 0 20px #83d8ff);
+}
+
+.admin-img.about{
   cursor: pointer;
 }
 

@@ -1,23 +1,25 @@
 from django.shortcuts import render, redirect
 from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .forms import UserUpdateForm, AboutUpdateForm, UpdateMenuForm, UpdateParalaxForm
+from .forms import (UserUpdateForm, 
+                    AboutUpdateForm, 
+                    UpdateMenuForm, 
+                    UpdateParalaxForm, 
+                    UserUpdateEmailForm,
+                    UserPasswordChangeForm,
+                    RegisterForm)
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse_lazy
 from .models import Menu, Message, Service, Case, Ed_and_work, Feedback, Contact, LogMessage
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.utils import timezone
+from django.contrib.auth.views import PasswordChangeView
+from django.views.generic.edit import FormView
+from django.contrib.auth import login
 
 # Create your views here.
 
-@login_required
-def profile(request):
-    context = {
-        'current_path': request.path,
-        'home_url': reverse('profile')}
-    return render(request, "adminPanel/profile.html", {'context': context, 'title': 'Профиль'})
 
 class MessagesView(LoginRequiredMixin,ListView):
     model = Message
@@ -447,6 +449,7 @@ class CreateFeedbackView(LoginRequiredMixin,CreateView):
         context['menu'] = request_menu(self.request)
         return context
     
+
 class UpdateFeedbackView(LoginRequiredMixin,UpdateView):
     model = Feedback
     fields = ['name','text','original_img']
@@ -510,6 +513,7 @@ class ContactView(LoginRequiredMixin,ListView):
         context['menu'] = request_menu(self.request)
         return context
     
+
 class CreateContactView(LoginRequiredMixin,CreateView):
     model = Contact
     fields = ['post']
@@ -688,6 +692,93 @@ class  LogsView(LoginRequiredMixin,ListView):
         context['menu'] = request_menu(self.request)
         context['posts'] = sorted(context['posts'], key=lambda x: x.created_at, reverse=True)
         return context
+
+
+class ProfileView(LoginRequiredMixin, View):
+    
+    def get(self, request):
+        user_form = UserUpdateEmailForm(instance=request.user)
+
+        context = {
+            'title': 'Профиль',
+            'user_form': user_form,
+            'menu': request_menu(request)
+            }
+
+        return render(request, 'adminPanel/profile.html', context) 
+    
+    def post(self,request):
+        user_form = UserUpdateEmailForm(
+            request.POST, 
+            instance=request.user
+        )
+
+        if user_form.is_valid():
+            user_form.save()
+
+            LogMessage.objects.create(
+                username=self.request.user.username,
+                text=f'E-mail изменен.',
+                user=self.request.user
+        )
+            
+            messages.success(request,'E-mail успешно изменен.')
+            
+            return redirect('profile')
+        else:
+            context = {
+                'title': 'Профиль',
+                'user_form': user_form,
+                'menu': request_menu(request)
+            }
+            print(f"errors - {user_form.errors}")
+            messages.error(request,user_form.errors)
+            
+            return render(request, 'adminPanel/profile.html', context)
+
+
+class UserPasswordChange(PasswordChangeView):
+    form_class = UserPasswordChangeForm
+    success_url = reverse_lazy("password_change_done")
+    template_name = "adminPanel/password_change_form.html"
+    extra_context = {'title': "Изменение пароля"}
+    
+    def form_valid(self, form):
+
+        LogMessage.objects.create(
+            username=self.request.user.username,
+            text=f'Пароль изменен.',
+            user=self.request.user
+        )
+
+        return super(UserPasswordChange, self).form_valid(form)
+
+
+class RegisterView(FormView):
+    template_name = 'adminPanel/register.html'
+    form_class = RegisterForm
+    redirect_authenticated_user = False
+    success_url = reverse_lazy('about')
+
+    def dispatch(self, request, *args, **kwargs):
+
+        if not request.user.is_superuser:
+            messages.error(request, 'У Вас нет прав регистрировать новых пользователей.')
+            return redirect('profile')
+
+        return super().dispatch(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        user = form.save()
+        if user:
+            login(self.request, user)
+            LogMessage.objects.create(
+                username=self.request.user.username,
+                text=f'Зарегистрирован новый пользователь - {user.username}',
+                user=self.request.user
+                )
+
+        return super(RegisterView, self).form_valid(form)
 
 def request_menu(request):
     user_id = request.user.id  # Получаем id текущего пользователя

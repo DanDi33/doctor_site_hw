@@ -1,5 +1,4 @@
 from django.urls import path
-from .views import profile
 from .views import (MessagesView,
                     UpdateMessageView, 
                     DeleteMessageView,
@@ -26,8 +25,12 @@ from .views import (MessagesView,
                     DeleteContactView,
                     UpdateMenuView,
                     UpdateParalaxView,
-                    LogsView
+                    LogsView,
+                    ProfileView,
+                    UserPasswordChange,
+                    RegisterView
                     )
+from django.contrib.auth.views import PasswordChangeDoneView
 
 urlpatterns = [
     path('adminPanel/messages/', MessagesView.as_view(), name="messages"),
@@ -65,6 +68,8 @@ urlpatterns = [
     path('adminPanel/settings/paralax/', UpdateParalaxView.as_view(), name="settings-paralax"),
     path('adminPanel/settings/logs/', LogsView.as_view(), name="settings-logs"),
 
-    path("admin-panel/profile/",profile , name="profile"),
-    # path('profile/', MyProfileView.as_view(), name="profile")
+    path("adminPanel/profile/",ProfileView.as_view() , name="profile"),
+    path('adminPanel/password-change/', UserPasswordChange.as_view(), name='password_change'),
+    path('adminPanel/password-change/done/', PasswordChangeDoneView.as_view(template_name="adminPanel/password_change_done.html"), name="password_change_done"),
+    path('adminPanel/register/',RegisterView.as_view(),name='register'),
 ]

@@ -19,7 +19,8 @@
     <div class="container-fluid">
         <div class="row flex-nowrap">
             <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 custom-menu">
-                <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100 custom-menu-fixed">
+                <div
+                    class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100 custom-menu-fixed">
                     <a href="/"
                         class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
                         <span class="fs-5 d-none d-sm-inline">Меню</span>
@@ -27,40 +28,71 @@
                     <ul class="nav text-light flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start"
                         id="menu">
                         <li>
-                            <a href="{% url 'site' username=user.username %}" class="nav-link align-middle px-0 admin-menu-text {%if active == 'home' %} active {% endif %}">
+                            <a href="{% url 'site' username=user.username %}"
+                                class="nav-link align-middle px-0 admin-menu-text {%if active == 'home' %} active {% endif %}">
                                 <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Ваш сайт</span>
                             </a>
                         </li>
                         <li>
-                            <a href="{% url 'messages' %}" class="nav-link align-middle px-0 admin-menu-text {%if active == 'messages' %} active {% endif %}">
-                                <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">{% if menu.messages %} {{ menu.messages }} {% else %}Сообщения {% endif %}</span>
+                            <a href="{% url 'messages' %}"
+                                class="nav-link align-middle px-0 admin-menu-text {%if active == 'messages' %} active {% endif %}">
+                                <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">
+                                    {% if menu.messages %} {{ menu.messages }} {% else %}Сообщения {% endif %}</span>
                             </a>
                         </li>
                         <li>
-                            <a href="{% url 'about' %}" class="nav-link align-middle px-0 admin-menu-text {%if active == 'about' %} active {% endif %}">
-                                <i class="fs-4 bi-file-person"></i> <span class="ms-1 d-none d-sm-inline">{% if menu.about %} {{ menu.about }} {% else %} О себе {% endif %}</span>
+                            <a href="{% url 'about' %}"
+                                class="nav-link align-middle px-0 admin-menu-text {%if active == 'about' %} active {% endif %}">
+                                <i class="fs-4 bi-file-person"></i> <span class="ms-1 d-none d-sm-inline">
+                                    {% if menu.about %} {{ menu.about }} {% else %} О себе {% endif %}</span>
                             </a>
                         </li>
                         <li>
-                            <a href="{% url 'services' %}" class="nav-link px-0 align-middle admin-menu-text {%if active == 'services' %} active {% endif %}">
-                                <i class="fs-4 bi-currency-euro"></i> <span class="ms-1 d-none d-sm-inline">{% if menu.services %} {{ menu.services }} {% else %} Услуги {% endif %}</span></a>
+                            <a href="{% url 'services' %}"
+                                class="nav-link px-0 align-middle admin-menu-text {%if active == 'services' %} active {% endif %}">
+                                <i class="fs-4 bi-currency-euro"></i> <span class="ms-1 d-none d-sm-inline">
+                                    {% if menu.services %} {{ menu.services }} {% else %} Услуги {% endif %}</span></a>
                         </li>
                         <li>
-                            <a href="{% url 'cases' %}" class="nav-link px-0 align-middle admin-menu-text {%if active == 'cases' %} active {% endif %}">
-                                <i class="fs-4 bi-heart-pulse"></i> <span class="ms-1 d-none d-sm-inline">{% if menu.cases %} {{ menu.cases }} {% else %} Кейсы {% endif %}</span></a>
+                            <a href="{% url 'cases' %}"
+                                class="nav-link px-0 align-middle admin-menu-text {%if active == 'cases' %} active {% endif %}">
+                                <i class="fs-4 bi-heart-pulse"></i> <span class="ms-1 d-none d-sm-inline">
+                                    {% if menu.cases %} {{ menu.cases }} {% else %} Кейсы {% endif %}</span></a>
                         </li>
                         <li>
-                            <a href="{% url 'ed-and-work' %}" class="nav-link px-0 align-middl admin-menu-text {%if active == 'ed_and_work' %} active {% endif %}">
-                                <i class="fs-4 bi-mortarboard"></i> <span class="ms-1 d-none d-sm-inline">{% if menu.ed_and_work %} {{ menu.ed_and_work }} {% else %} Образование и работа {% endif %}</span></a>
-                        </li>
-                        <li>
-                            <a href="{% url 'feedbacks' %}" class="nav-link px-0 align-middle admin-menu-text {%if active == 'feedbacks' %} active {% endif %}">
-                                <i class="fs-4 bi-chat-text"></i> <span class="ms-1 d-none d-sm-inline">{% if menu.feedbacks %} {{ menu.feedbacks }} {% else %} Отзывы {% endif %}</span>
+                            <a href="{% url 'ed-and-work' %}"
+                                class="nav-link px-0 align-middl admin-menu-text {%if active == 'ed_and_work' %} active {% endif %}">
+                                <i class="fs-4 bi-mortarboard"></i> 
+                                <span class="ms-1 d-none d-sm-inline">
+                                    {% if menu.ed_and_work %} 
+                                    {{ menu.ed_and_work }} 
+                                    {% else %} 
+                                    Образование и работа 
+                                    {% endif %}
+                                </span>
                             </a>
                         </li>
                         <li>
-                            <a href="{% url 'contacts' %}" class="nav-link px-0 align-middle admin-menu-text {%if active == 'contacts' %} active {% endif %}">
-                                <i class="fs-4 bi-envelope"></i> <span class="ms-1 d-none d-sm-inline">{% if menu.contacts %} {{ menu.contacts }} {% else %} Контакты {% endif %}</span>
+                            <a href="{% url 'feedbacks' %}"
+                                class="nav-link px-0 align-middle admin-menu-text {%if active == 'feedbacks' %} active {% endif %}">
+                                <i class="fs-4 bi-chat-text"></i> <span class="ms-1 d-none d-sm-inline">
+                                    {% if menu.feedbacks %} 
+                                    {{ menu.feedbacks }} 
+                                    {% else %} 
+                                    Отзывы 
+                                    {% endif %}
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'contacts' %}"
+                                class="nav-link px-0 align-middle admin-menu-text {%if active == 'contacts' %} active {% endif %}">
+                                <i class="fs-4 bi-envelope"></i> <span class="ms-1 d-none d-sm-inline">
+                                    {% if menu.contacts %} 
+                                    {{ menu.contacts }} 
+                                    {% else %} 
+                                    Контакты 
+                                    {% endif %}</span>
                             </a>
                         </li>
                     </ul>
@@ -74,7 +106,9 @@
                             <span class="d-none d-sm-inline mx-1">{{user.username}}</span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
-                            <li><a class="dropdown-item" href="#">New project...</a></li>
+                            {% if user.is_superuser %}
+                            <li><a class="dropdown-item" href="{% url 'register' %}">New user...</a></li>
+                            {% endif %}
                             <li><a class="dropdown-item" href="{% url 'settings-menu' %}">Настройки</a></li>
                             <li><a class="dropdown-item" href="{% url 'profile' %}">Профиль</a></li>
                             <li>

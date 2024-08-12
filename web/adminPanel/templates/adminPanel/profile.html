@@ -1,10 +1,106 @@
 {% extends "adminPanel/base.html" %}
 {% block content %}
 <style>
-    .admin-panel-body {
-        background-color: rgb(28, 160, 201);
-    }
+  .admin-panel-body {
+    background-image: url('/media/fon-admin-about.jpg');
+  }
 </style>
-  <h1>Profile!!!</h1>
+<div class="container">
+  <div id="innerPage">
+    <form method="post" novaldiate>
+      {% csrf_token %}
+      <div class="row align-items-center justify-content-center">
+        <div class="col text-white px-5 pt-5">
+          <div class="lead">
+            <h3>Профиль пользователя</h3>
+            <p class="fs-6 mb-4">
+              <small class="label-color">На данной странице отображена информация о пользователе. Здесь Вы
+                можете изменять электронную почту и поменять пароль.</small>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-md-8 col-sm-12 text-white px-5">
+          
+          <div class="row mt-4">
+            <div class="col-md-4 col-sm-12">
+              <span class="label-color">Username: </span>
+            </div>
+            <div class="col-md-8 col-sm-12">
+              <span>{{user.username}}</span>
+            </div>
+          </div>
+
+          <div class="row mt-4">
+            <div class="col-md-4 col-sm-12">
+              <span class="label-color">Имя: </span>
+            </div>
+            <div class="col-md-8 col-sm-12">
+              <span>{{user.first_name}}</span>
+            </div>
+          </div>
+
+          <div class="row mt-4">
+            <div class="col-md-4 col-sm-12">
+              <span class="label-color">Фамилия: </span>
+            </div>
+            <div class="col-md-8 col-sm-12">
+              <span>{{user.last_name}}</span>
+            </div>
+          </div>
+
+          <div class="row mt-4">
+            <div class="col-md-4 col-sm-12">
+              <span class="label-color">Профессия: </span>
+            </div>
+            <div class="col-md-8 col-sm-12">
+              <span>{{user.about.profession}}</span>
+            </div>
+          </div>
+
+          
+          <div class="row mt-4">
+            <div class="col-md-4 col-sm-12">
+              <span class="label-color">E-mail: </span>
+            </div>
+            <div class="col-md-8 col-sm-12">
+              <input class="form-control rounded-0 mb-3" type="text" name="email" id="id_email"
+              placeholder="Введите e-mail" value="{{user.email}}" />
+            </div>
+          </div>
+
+          {% if messages %}
+          {% for message in messages %}
+          <div class="alert alert-{{message.tags}}">
+            {{message}}
+          </div>
+          {% endfor %}
+          {% endif %}
+
+
+        </div>
+        <div class="col-md-4 col-sm-12 px-5 d-md-block d-none">
+          {% if user.about %}
+          <img src="{{ user.about.main_foto.url }}" alt="{{ user.username }}" class="img-fluid admin-img"
+            accept=".jpg,.jpeg,.png" id="about-img">
+          {% endif %}
+        </div>
+
+
+      </div>
+      <div class="row align-items-center justify-content-center">
+        <div class="col-md-6 col-sm-12 px-5 pb-5">
+         <p class="mt-4"><span class="label-color">Последний вход:  </span><span>{{ user.last_login|date:"d M Y, H:i" }}</span> </p>
+        </div>
+
+        <div class="col-md-6 col-sm-12 px-5 pb-5">
+          <a href="{% url 'password_change' %}" class="btn btn-info mt-4">Изменить пароль</a>
+          <button class="btn btn-info mt-4 w-50" type="submit">Сохранить</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
 
 {% endblock content %}
