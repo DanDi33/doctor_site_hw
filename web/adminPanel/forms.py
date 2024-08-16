@@ -1,7 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
 from .models import About, Menu, Paralax
-from .validators import CustomCommonPasswordValidator
 from django.contrib.auth.forms import PasswordChangeForm, UserCreationForm
 from django.utils.translation import gettext_lazy as _
 

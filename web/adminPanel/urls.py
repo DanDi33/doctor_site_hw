@@ -25,6 +25,8 @@ from .views import (MessagesView,
                     DeleteContactView,
                     UpdateMenuView,
                     UpdateParalaxView,
+                    UserListView,
+                    DeleteUserView,
                     LogsView,
                     ProfileView,
                     UserPasswordChange,
@@ -66,6 +68,8 @@ urlpatterns = [
   
     path('adminPanel/settings/menu/', UpdateMenuView.as_view(), name="settings-menu"),
     path('adminPanel/settings/paralax/', UpdateParalaxView.as_view(), name="settings-paralax"),
+    path('adminPanel/settings/users/', UserListView.as_view(), name="settings-users"),
+    path('adminPanel/settings/user/delete/<int:pk>', DeleteUserView.as_view(), name="delete-user"),
     path('adminPanel/settings/logs/', LogsView.as_view(), name="settings-logs"),
 
     path("adminPanel/profile/",ProfileView.as_view() , name="profile"),

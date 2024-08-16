@@ -15,7 +15,6 @@ class HomeView(CreateView):
     model = Message
     fields = ['name','phone','comment','completed']
     template_name = "main/main.html"
-    # success_url = reverse_lazy('site', kwargs={'username': username})
 
     def form_valid(self, form):
         username = self.kwargs.get('username')
@@ -79,10 +78,7 @@ class HomeView(CreateView):
         return context
 
 def request_menu(request, user_id):
-    # user_id = request.user.id  # Получаем id текущего пользователя
     menu = Menu.objects.filter(user_id=user_id).first()  # Используем user_id для фильтрации
-
-    # print(f"menu - {menu.about}")
     return menu
 
 def clean_phone_number(phone_number):

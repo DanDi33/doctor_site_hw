@@ -95,4 +95,4 @@ class LogMessage(models.Model):
     text = models.TextField('Лог', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
-    user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
+    # user = models.ForeignKey(User, on_delete=models.DO_NOTHING)

@@ -28,7 +28,7 @@
                     <ul class="nav text-light flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start"
                         id="menu">
                         <li>
-                            <a href="{% url 'site' username=user.username %}"
+                            <a href="{% url 'site' username=request.user.username %}"
                                 class="nav-link align-middle px-0 admin-menu-text {%if active == 'home' %} active {% endif %}">
                                 <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Ваш сайт</span>
                             </a>
@@ -101,12 +101,12 @@
                         <a href="#"
                             class="d-flex align-items-center text-white text-decoration-none dropdown-toggle {% if current_path == home_url %}active{% endif %}"
                             id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="{{ user.about.main_foto.url }}" alt="logo" width="30" height="30"
+                            <img src="{{ request.user.about.main_foto.url }}" alt="logo" width="30" height="30"
                                 class="rounded-circle">
-                            <span class="d-none d-sm-inline mx-1">{{user.username}}</span>
+                            <span class="d-none d-sm-inline mx-1">{{request.user.username}}</span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
-                            {% if user.is_superuser %}
+                            {% if request.user.is_superuser %}
                             <li><a class="dropdown-item" href="{% url 'register' %}">New user...</a></li>
                             {% endif %}
                             <li><a class="dropdown-item" href="{% url 'settings-menu' %}">Настройки</a></li>

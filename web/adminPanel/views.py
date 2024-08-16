@@ -17,6 +17,7 @@ from django.utils import timezone
 from django.contrib.auth.views import PasswordChangeView
 from django.views.generic.edit import FormView
 from django.contrib.auth import login
+from django.contrib.auth.models import User
 
 # Create your views here.
 
@@ -37,7 +38,8 @@ class MessagesView(LoginRequiredMixin,ListView):
     
     def get_queryset(self):
         return Message.objects.all().order_by('-created_at')
-    
+
+
 class UpdateMessageView(LoginRequiredMixin,UpdateView):
     model = Message
     fields = ['comment','completed']
@@ -51,8 +53,7 @@ class UpdateMessageView(LoginRequiredMixin,UpdateView):
         formatted_date = timezone.localtime(message.created_at).strftime('%d-%m-%Y %H:%M:%S')
         LogMessage.objects.create(
             username=self.request.user.username,
-            text=f'Сообщение от {message.name}, созданное {formatted_date}  - изменено.',
-            user=self.request.user
+            text=f'Сообщение от {message.name}, созданное {formatted_date}  - изменено.'
         )
 
         form.instance.user = self.request.user
@@ -64,7 +65,8 @@ class UpdateMessageView(LoginRequiredMixin,UpdateView):
         context['active'] = 'messages'
         context['menu'] = request_menu(self.request)
         return context
-    
+
+
 class DeleteMessageView(LoginRequiredMixin,DeleteView):
     model = Message    
     success_url = reverse_lazy('messages')
@@ -75,8 +77,7 @@ class DeleteMessageView(LoginRequiredMixin,DeleteView):
         formatted_date = timezone.localtime(message.created_at).strftime('%d-%m-%Y %H:%M:%S')
         LogMessage.objects.create(
             username=self.request.user.username,
-            text=f'Сообщение от {message.name}, созданное {formatted_date}  - удалено.',
-            user=self.request.user
+            text=f'Сообщение от {message.name}, созданное {formatted_date}  - удалено.'
         )
 
         messages.success(self.request, "Сообщение успешно удалено.")
@@ -106,6 +107,7 @@ class MyAboutView(LoginRequiredMixin, View):
         return render(request, 'adminPanel/about.html', context) 
     
     def post(self,request):
+
         user_form = UserUpdateForm(
             request.POST, 
             instance=request.user
@@ -116,31 +118,35 @@ class MyAboutView(LoginRequiredMixin, View):
             instance=request.user.about
         )
 
-        if user_form.is_valid() and about_form.is_valid():
+        user_form_valid = user_form.is_valid()
+        about_form_valid = about_form.is_valid()
+
+        if user_form_valid:
             user_form.save()
+        if about_form_valid:
             about_form.save()
 
+        if user_form_valid or about_form_valid:
+           
             LogMessage.objects.create(
                 username=self.request.user.username,
-                text=f'Блок "О себе" - изменен.',
-                user=self.request.user
-        )
-            
+                text=f'Блок "О себе" - изменен.'
+            )
             messages.success(request,'Ваш блок "О себе" успешно изменен.')
-            
             return redirect('about')
-        else:
-            context = {
-                'title': 'О себе',
-                'user_form': user_form,
-                'profile_form': about_form,
-                'active':'about',
-                'menu': request_menu(request)
-            }
-            messages.error(request,'Ошибка изменения блока "Осебе".')
-            
-            return render(request, 'adminPanel/about.html', context)
         
+        context = {
+            'title': 'О себе',
+            'user_form': user_form,
+            'profile_form': about_form,
+            'active':'about',
+            'menu': request_menu(request)
+        }
+           
+        messages.error(request, 'Ошибка изменения блока "О себе". Проверьте формы и попробуйте снова.')
+        return render(request, 'adminPanel/about.html', context)
+
+
 class ServiceView(LoginRequiredMixin,ListView):
     model = Service
     template_name = "adminPanel/services.html"
@@ -153,7 +159,8 @@ class ServiceView(LoginRequiredMixin,ListView):
         context['active'] = 'services'
         context['menu'] = request_menu(self.request)
         return context
-    
+
+
 class CreateServiceView(LoginRequiredMixin,CreateView):
     model = Service
     fields = ['title','desc','price','img']
@@ -166,8 +173,7 @@ class CreateServiceView(LoginRequiredMixin,CreateView):
         service = form.save(commit=False)
         LogMessage.objects.create(
             username=self.request.user.username,
-            text=f'В блоке "Услуги" запись "{service.title}" - создана.',
-            user=self.request.user
+            text=f'В блоке "Услуги" запись "{service.title}" - создана.'
         )
 
         form.instance.user = self.request.user
@@ -179,7 +185,8 @@ class CreateServiceView(LoginRequiredMixin,CreateView):
         context['active'] = 'services'
         context['menu'] = request_menu(self.request)
         return context
-    
+
+
 class UpdateServiceView(LoginRequiredMixin,UpdateView):
     model = Service
     fields = ['title','desc','price','img']
@@ -192,8 +199,7 @@ class UpdateServiceView(LoginRequiredMixin,UpdateView):
         service = form.save(commit=False)
         LogMessage.objects.create(
             username=self.request.user.username,
-            text=f'В блоке "Услуги" запись "{service.title}" - изменена.',
-            user=self.request.user
+            text=f'В блоке "Услуги" запись "{service.title}" - изменена.'
         )
 
         form.instance.user = self.request.user
@@ -206,6 +212,7 @@ class UpdateServiceView(LoginRequiredMixin,UpdateView):
         context['menu'] = request_menu(self.request)
         return context
 
+
 class DeleteServiceView(LoginRequiredMixin,DeleteView):
     model = Service    
     success_url = reverse_lazy('services')
@@ -215,8 +222,7 @@ class DeleteServiceView(LoginRequiredMixin,DeleteView):
         service = self.get_object()
         LogMessage.objects.create(
             username=self.request.user.username,
-            text=f'В блоке "Услуги" запись "{service.title}" - удалена.',
-            user=self.request.user
+            text=f'В блоке "Услуги" запись "{service.title}" - удалена.'
         )
 
         messages.success(self.request, "Запись успешно удалена.")
@@ -255,8 +261,7 @@ class CreatePostEdAndWorkView(LoginRequiredMixin,CreateView):
         ed_and_work = form.save(commit=False)
         LogMessage.objects.create(
             username=self.request.user.username,
-            text=f'В блоке "Образование и работа" запись "{ed_and_work.desc[:40]}..." - создана.',
-            user=self.request.user
+            text=f'В блоке "Образование и работа" запись "{ed_and_work.desc[:40]}..." - создана.'
         )
 
         form.instance.user = self.request.user
@@ -281,8 +286,7 @@ class UpdatePostEdAndWorkView(LoginRequiredMixin,UpdateView):
         ed_and_work = form.save(commit=False)
         LogMessage.objects.create(
             username=self.request.user.username,
-            text=f'В блоке "Образование и работа" запись "{ed_and_work.desc[:40]}..." - изменена.',
-            user=self.request.user
+            text=f'В блоке "Образование и работа" запись "{ed_and_work.desc[:40]}..." - изменена.'
         )
 
         form.instance.user = self.request.user
@@ -305,11 +309,10 @@ class DeletePostEdAndWorkView(LoginRequiredMixin,DeleteView):
         ed_and_work = self.get_object()
         LogMessage.objects.create(
             username=self.request.user.username,
-            text=f'В блоке "Образование и работа" запись "{ed_and_work.desc[:40]}..." - удалена.',
-            user=self.request.user
+            text=f'В блоке "Образование и работа" запись "{ed_and_work.desc[:40]}..." - удалена.'
         )
 
-        messages.success(self.request, "Запись успешно удалена. !")
+        messages.success(self.request, "Запись успешно удалена.")
         return super(DeletePostEdAndWorkView, self).form_valid(form)
     
     def get_context_data(self, **kwargs):
@@ -344,8 +347,7 @@ class CreateCaseView(LoginRequiredMixin,CreateView):
         case = form.save(commit=False)
         LogMessage.objects.create(
             username=self.request.user.username,
-            text=f'В блоке "Кейсы" запись "{case.post[:40]}..." - создана.',
-            user=self.request.user
+            text=f'В блоке "Кейсы" запись "{case.post[:40]}..." - создана.'
         )
 
         form.instance.user = self.request.user
@@ -370,8 +372,7 @@ class UpdateCaseView(LoginRequiredMixin,UpdateView):
         case = form.save(commit=False)
         LogMessage.objects.create(
             username=self.request.user.username,
-            text=f'В блоке "Кейсы" запись "{case.post[:40]}..." - изменена.',
-            user=self.request.user
+            text=f'В блоке "Кейсы" запись "{case.post[:40]}..." - изменена.'
         )
 
         form.instance.user = self.request.user
@@ -394,11 +395,10 @@ class DeleteCaseView(LoginRequiredMixin,DeleteView):
         case = self.get_object()
         LogMessage.objects.create(
             username=self.request.user.username,
-            text=f'В блоке "Кейсы" запись "{case.post[:40]}..." - удалена.',
-            user=self.request.user
+            text=f'В блоке "Кейсы" запись "{case.post[:40]}..." - удалена.'
         )
 
-        messages.success(self.request, "Запись успешно удалена. !")
+        messages.success(self.request, "Запись успешно удалена.")
         return super(DeleteCaseView, self).form_valid(form)
     
     def get_context_data(self, **kwargs):
@@ -434,8 +434,7 @@ class CreateFeedbackView(LoginRequiredMixin,CreateView):
         feedback = form.save(commit=False)
         LogMessage.objects.create(
             username=self.request.user.username,
-            text=f'В блоке "Отзывы" отзыв от "{feedback.name}" - создан.',
-            user=self.request.user
+            text=f'В блоке "Отзывы" отзыв от "{feedback.name}" - создан.'
         )
 
 
@@ -462,8 +461,7 @@ class UpdateFeedbackView(LoginRequiredMixin,UpdateView):
         feedback = form.save(commit=False)
         LogMessage.objects.create(
             username=self.request.user.username,
-            text=f'В блоке "Отзывы" отзыв от "{feedback.name}" - изменен.',
-            user=self.request.user
+            text=f'В блоке "Отзывы" отзыв от "{feedback.name}" - изменен.'
         )
 
         form.instance.user = self.request.user
@@ -486,8 +484,7 @@ class DeleteFeedbackView(LoginRequiredMixin,DeleteView):
         feedback = self.get_object()
         LogMessage.objects.create(
             username=self.request.user.username,
-            text=f'В блоке "Отзывы" отзыв от "{feedback.name}" - удален.',
-            user=self.request.user
+            text=f'В блоке "Отзывы" отзыв от "{feedback.name}" - удален.'
         )
 
         messages.success(self.request, "Отзыв успешно удален.")
@@ -525,8 +522,7 @@ class CreateContactView(LoginRequiredMixin,CreateView):
         contact = form.save(commit=False)
         LogMessage.objects.create(
             username=self.request.user.username,
-            text=f'В блоке "Контакты" запись "{contact.post[:40]}..." - создана.',
-            user=self.request.user
+            text=f'В блоке "Контакты" запись "{contact.post[:40]}..." - создана.'
         )
 
         form.instance.user = self.request.user
@@ -551,8 +547,7 @@ class UpdateContactView(LoginRequiredMixin,UpdateView):
         contact = form.save(commit=False)
         LogMessage.objects.create(
             username=self.request.user.username,
-            text=f'В блоке "Контакты" запись "{contact.post[:40]}..." - изменена.',
-            user=self.request.user
+            text=f'В блоке "Контакты" запись "{contact.post[:40]}..." - изменена.'
         )
 
         form.instance.user = self.request.user
@@ -575,11 +570,10 @@ class DeleteContactView(LoginRequiredMixin,DeleteView):
         contact = self.get_object()
         LogMessage.objects.create(
             username=self.request.user.username,
-            text=f'В блоке "Контакты" запись "{contact.post[:40]}..." - удалена.',
-            user=self.request.user
+            text=f'В блоке "Контакты" запись "{contact.post[:40]}..." - удалена.'
         )
 
-        messages.success(self.request, "Запись успешно удалена. !")
+        messages.success(self.request, "Запись успешно удалена.")
         return super(DeleteContactView, self).form_valid(form)
     
     def get_context_data(self, **kwargs):
@@ -616,8 +610,7 @@ class UpdateMenuView(LoginRequiredMixin, View):
 
             LogMessage.objects.create(
                 username=self.request.user.username,
-                text=f'Изменено "Меню".',
-                user=self.request.user
+                text=f'Изменено "Меню".'
             )
 
             menu_form.save()     
@@ -660,8 +653,7 @@ class UpdateParalaxView(LoginRequiredMixin, View):
 
             LogMessage.objects.create(
             username=self.request.user.username,
-            text=f'Изменены "Паралакс-картинки".',
-            user=self.request.user
+            text=f'Изменены "Паралакс-картинки".'
             )
 
             paralax_form.save()      
@@ -680,17 +672,82 @@ class UpdateParalaxView(LoginRequiredMixin, View):
             return render(request, 'adminPanel/settings-paralax.html', context=context)
 
 
+class UserListView(LoginRequiredMixin,ListView):
+    model = User
+    template_name = "adminPanel/settings-users.html"
+    context_object_name = "posts"
+
+    def get_queryset(self):
+        return User.objects.filter(is_superuser=False)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Пользователи'
+        context['active'] = 'settings-users'
+        context['menu'] = request_menu(self.request)
+        return context
+    
+    def dispatch(self, request, *args, **kwargs):
+
+        if not request.user.is_superuser:
+            messages.error(request, 'У Вас нет прав для просмотра списка пользователей.')
+            return redirect('profile')
+
+        return super().dispatch(request, *args, **kwargs)
+
+
+class DeleteUserView(LoginRequiredMixin,DeleteView):
+    model = User 
+    template_name = "adminPanel/user_confirm_delete.html"
+    success_url = reverse_lazy('settings-users')
+
+    def form_valid(self, form):
+
+        deleted_user = self.get_object()
+
+        if deleted_user.is_superuser:
+            messages.error(self.request, f"Невозможно удалить суперюзера '{deleted_user.username}'.")
+            return redirect('settings-users')
+
+        LogMessage.objects.create(
+            username=self.request.user.username,
+            text=f'Пользователь "{deleted_user.username}" - успешно удален.'
+        )
+
+        messages.success(self.request, f"Пользователь '{deleted_user.username}' - успешно удален.")
+        return super(DeleteUserView, self).form_valid(form)
+    
+    def get_context_data(self, **kwargs):
+        context = super(DeleteUserView, self).get_context_data(**kwargs)
+        context['active'] = 'settings-users'
+        context['menu'] = request_menu(self.request)
+        return context
+    
+    def dispatch(self, request, *args, **kwargs):
+        print(f"user - {self.request.user.username}")
+        if not request.user.is_superuser:
+            messages.error(request, 'У Вас нет прав для удаления пользователей.')
+            return redirect('profile')
+
+        return super().dispatch(request, *args, **kwargs)
+
+
 class  LogsView(LoginRequiredMixin,ListView):
     model = LogMessage
     template_name = "adminPanel/settings-logs.html"
     context_object_name = "posts"
     
+    def get_queryset(self):
+        if self.request.user.is_superuser:
+            return LogMessage.objects.all().order_by('-created_at')
+        else:
+            return LogMessage.objects.filter(username=self.request.user).order_by('-created_at')
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Логи'
         context['active'] = 'settings-logs'
         context['menu'] = request_menu(self.request)
-        context['posts'] = sorted(context['posts'], key=lambda x: x.created_at, reverse=True)
         return context
 
 
@@ -718,8 +775,7 @@ class ProfileView(LoginRequiredMixin, View):
 
             LogMessage.objects.create(
                 username=self.request.user.username,
-                text=f'E-mail изменен.',
-                user=self.request.user
+                text=f'E-mail изменен.'
         )
             
             messages.success(request,'E-mail успешно изменен.')
@@ -747,8 +803,7 @@ class UserPasswordChange(PasswordChangeView):
 
         LogMessage.objects.create(
             username=self.request.user.username,
-            text=f'Пароль изменен.',
-            user=self.request.user
+            text=f'Пароль изменен.'
         )
 
         return super(UserPasswordChange, self).form_valid(form)
@@ -774,11 +829,11 @@ class RegisterView(FormView):
             login(self.request, user)
             LogMessage.objects.create(
                 username=self.request.user.username,
-                text=f'Зарегистрирован новый пользователь - {user.username}',
-                user=self.request.user
+                text=f'Зарегистрирован новый пользователь - {user.username}'
                 )
 
         return super(RegisterView, self).form_valid(form)
+
 
 def request_menu(request):
     user_id = request.user.id  # Получаем id текущего пользователя

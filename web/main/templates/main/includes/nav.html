@@ -1,8 +1,14 @@
 <!-- MENU -->
 <nav class="navbar navbar-expand-sm navbar-light" style="background-color: rgb(224, 226, 226);">
     <div class="container">
-        <a class="navbar-brand" href="{% if user.is_authenticated %} {% url 'messages' %} {% else %}#about{% endif %}"><i class='uil uil-user'></i> {{cur_user.first_name|slice:"1"}}.
-            {{cur_user.last_name}}</a>
+        <a class="navbar-brand" href="{% if user.is_authenticated %} {% url 'messages' %} {% else %}#about{% endif %}"><i class='uil uil-user'></i> 
+            {% if user.is_authenticated %}
+            АдминПанель
+            {% else %}
+            {{cur_user.first_name|slice:"1"}}.
+            {{cur_user.last_name}}
+            {% endif %}
+        </a>
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
