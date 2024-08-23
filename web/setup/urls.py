@@ -19,6 +19,9 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
 
+handler404 = 'main.views.page_not_found'
+handler500 = 'main.views.user_not_found'
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include("users.urls")),
@@ -26,5 +29,6 @@ urlpatterns = [
     path('', include("main.urls")),
 ]
 
-urlpatterns += static(settings.MEDIA_URL,
-                      document_root = settings.MEDIA_ROOT)
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL,
+                        document_root = settings.MEDIA_ROOT)

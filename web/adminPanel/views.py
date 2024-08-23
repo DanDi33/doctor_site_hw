@@ -724,7 +724,7 @@ class DeleteUserView(LoginRequiredMixin,DeleteView):
         return context
     
     def dispatch(self, request, *args, **kwargs):
-        print(f"user - {self.request.user.username}")
+
         if not request.user.is_superuser:
             messages.error(request, 'У Вас нет прав для удаления пользователей.')
             return redirect('profile')

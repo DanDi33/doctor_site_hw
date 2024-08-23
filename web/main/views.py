@@ -56,26 +56,28 @@ class HomeView(CreateView):
             user = User.objects.filter(username=username).first()
             
         context = super(HomeView, self).get_context_data(**kwargs)
-        
-        cases = Case.objects.filter(user_id=user.id)
-        services = Service.objects.filter(user_id=user.id)
-        ed_and_works = Ed_and_work.objects.filter(user_id=user.id).order_by('-year')
-        feedbacks = Feedback.objects.filter(user_id=user.id)
-        contacts = Contact.objects.filter(user_id=user.id)
-        context.update({
-            'title': 'Главная страница',
-            'current_path': self.request.path,
-            'active':'home',
-            'menu': request_menu(self.request,user.id),
-            'cases': cases,
-            'services':services,
-            'ed_and_works': ed_and_works,
-            'feedbacks':feedbacks,
-            'contacts':contacts,
-            'cur_user':user,
-            'home_url': reverse('home')
-            })
-        return context
+        if user:
+            cases = Case.objects.filter(user_id=user.id)
+            services = Service.objects.filter(user_id=user.id)
+            ed_and_works = Ed_and_work.objects.filter(user_id=user.id).order_by('-year')
+            feedbacks = Feedback.objects.filter(user_id=user.id)
+            contacts = Contact.objects.filter(user_id=user.id)
+            context.update({
+                'title': 'Главная страница',
+                'current_path': self.request.path,
+                'active':'home',
+                'menu': request_menu(self.request,user.id),
+                'cases': cases,
+                'services':services,
+                'ed_and_works': ed_and_works,
+                'feedbacks':feedbacks,
+                'contacts':contacts,
+                'cur_user':user,
+                'home_url': reverse('home')
+                })
+            return context
+        else:
+            return render(self.request, 'main/404_page.html', status=404)
 
 def request_menu(request, user_id):
     menu = Menu.objects.filter(user_id=user_id).first()  # Используем user_id для фильтрации
@@ -85,3 +87,15 @@ def clean_phone_number(phone_number):
     # Удаляем все знаки, кроме цифр и плюса в начале строки
     cleaned_number = re.sub(r'(?<!^)\+|[^\d+]', '', phone_number)
     return cleaned_number
+
+def page_not_found(request, exception):
+    """
+    Возвращает страницу ошибки 404.
+    """
+    return render(request, 'main/404_page.html', status=404)
+
+def user_not_found(request):
+    """
+    Возвращает страницу ошибки 500.
+    """
+    return render(request, 'main/500_page.html', status=500)

@@ -702,9 +702,20 @@ details[open] > summary::after {
 
 }
 
+.ed_and_work .img-ed {
+  width: 100%; 
+  /* Чтобы изображение было в пределах контейнера */
+  height: auto; 
+  /* Для сохранения пропорций изображения */
+  border-radius: 12px;
+  filter: drop-shadow(0 0 20px #f5b579);
+}
+
 /* Блок отзывы */
 
 .feedbacks.full-screen {
+
+    padding: 5rem 0;
   background-color: rgb(133, 132, 226);
 }
 
@@ -757,4 +768,8 @@ details[open] > summary::after {
 
 .feedbacks.blue {
   color: blue;
+}
+
+.feedbacks .bi.bi-emoji-smile{
+  filter: drop-shadow(0 0 20px #83d8ff);
 }

@@ -1,93 +1,28 @@
-<style>
-    /* Центрирование контента карточки */
-    .feedback-card .card-body {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        height: 100%;
-    }
-
-    /* Опционально: Сделать текст более читаемым */
-    .feedback-card .card-text {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        display: -webkit-box;
-        -webkit-line-clamp: 5;
-        /* Показывает не более 5 строк текста */
-        -webkit-box-orient: vertical;
-    }
-
-    #feedbackModal .modal-content {
-        border-radius: 15px;
-        background-color: #f8f9fa;
-        /* Светлый фон для контраста с темной страницей */
-        color: #333;
-    }
-
-    #feedbackModal .modal-header {
-        border-bottom: none;
-        padding-bottom: 0;
-    }
-
-    #feedbackModal .modal-body {
-        padding-top: 0;
-    }
-
-    #feedbackModal .modal-footer {
-        border-top: none;
-    }
-
-    /* Стили для текста внутри модального окна */
-    #feedbackModalText {
-        font-size: 1.1rem;
-        line-height: 1.5;
-    }
-
-    #feedbackModalName {
-        font-weight: bold;
-        color: #007bff;
-        /* Цвет текста, чтобы он выделялся */
-    }
-</style>
-
-<section class="feedbacks full-screen bg-dark text-light d-lg-flex justify-content-center align-items-center"
-    id="feedbacks">
+<section class="feedbacks full-screen bg-dark text-light d-lg-flex justify-content-center align-items-center" id="feedbacks">
     <div class="container">
+
         <div class="row">
-            <div class="col-12 text-center">
-                <h1 class="animated animated-text text-light">
-                    Отзывы</h1>
-                <p class="lead text-light-30">Что говорят наши клиенты</p>
+            <div class="col-md-12 col-lg-8 d-lg-flex align-items-center">
+                <div>
+                    <h1 class="animated animated-text text-light">Отзывы</h1>
+                    <h1 class="animated animated-text text-secondary">благодарных клиенты</h1>
+                </div>
+            </div>
+            <div class="col-md-12 col-lg-4 d-md-block d-none text-center">
+                <h1 class="animated animated-text text-light"><i class="bi bi-emoji-smile" style="font-size: 200px;"></i></h1>
             </div>
         </div>
-        <div id="feedbacksCarousel" class="carousel slide" data-ride="carousel">
-            <div class="carousel-inner">
-                {% for feedback in feedbacks %}
-                <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                    <div class="feedback-card card bg-light text-dark p-4 mx-auto"
-                        style="max-width: 600px; height: 350px;" data-toggle="modal" data-target="#feedbackModal"
-                        data-text="{{ feedback.text }}" data-name="{{ feedback.name }}">
-                        <div class="card-body d-flex flex-column justify-content-center align-items-center">
-                            <p class="card-text text-center mb-4">“{{ feedback.text }}”</p>
-                            <div class="feedback-author mt-auto text-center">
-                                <h5 class="card-title mb-0">{{ feedback.name }}</h5>
-                                <p class="card-subtitle text-muted">Клиент</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
+        <div class="slider">
+            {% for feedback in feedbacks %}
+            <div class="slider_item feedback-card p-4">
+                <h5 class="text-dark">{{feedback.name}}</h5>
+                <p>{{ feedback.text }}</p>
+                {% if feedback.original_img %}
+                <a href="#" data-toggle="modal" data-target="#feedbackModal"
+                data-img="{{feedback.original_img.url}}">Показать оригинал отзыва</a>
+                {% endif %}
             </div>
-            <!-- Carousel controls -->
-            <a class="carousel-control-prev" href="#feedbacksCarousel" role="button" data-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
-            </a>
-            <a class="carousel-control-next" href="#feedbacksCarousel" role="button" data-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>
-            </a>
+            {% endfor %}
         </div>
     </div>
 </section>
@@ -104,9 +39,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p id="feedbackModalText"></p>
-                <small class="feedbacks lightgray">Имя: </small><span class="feedbacks blue px-3"
-                    id="feedbackModalName"></span>
+                <img id="feedbackModalImage" src="" alt="Feedback Image" style="width: 100%; height: auto;">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
